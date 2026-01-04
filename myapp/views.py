@@ -28,3 +28,6 @@ def testimonial(request):
 
 def error(request):
     return render(request,'404.html')
+
+def SignUp(request):
+    return render(request,'Sign-Up.html')

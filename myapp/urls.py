@@ -27,6 +27,6 @@ urlpatterns = [
     path('service', views.service, name = 'service'),
     path('team', views.team, name = 'team'),
     path('testimonial', views.testimonial, name = 'testimonial'),
-    path('404', views.error, name = '404')
+    path('404', views.error, name = '404'),
+    path('SignUp', views.SignUp, name = 'SignUp')
 ]
-

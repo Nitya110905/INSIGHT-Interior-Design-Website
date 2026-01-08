@@ -28,5 +28,5 @@ urlpatterns = [
     path('team/', views.team, name = 'team'),
     path('testimonial/', views.testimonial, name = 'testimonial'),
     path('SignUp/', views.SignUp, name = 'SignUp'),
-    path('login/', views.Login, name = 'login')
+    path('login/', views.Login, name = 'login'),
 ]

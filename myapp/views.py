@@ -1,4 +1,5 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
+from django.contrib import messages
 from .models import User
 
 # Create your views here.
@@ -31,8 +32,8 @@ def SignUp(request):
     if request.method == "POST":
         try:
             user = User.objects.get(email=request.POST['email'])
-            msg = "User already exists!!"
-            return render(request,'Sign-Up.html',{'msg':msg})
+            messages.error(request,"User already exists!!!")
+            return render(request,'Sign-Up.html')
         except User.DoesNotExist:
             if request.POST['password'] == request.POST['cpassword']:
                 User.objects.create(
@@ -41,11 +42,11 @@ def SignUp(request):
                     password = request.POST['password'],
                     contact = request.POST['contact']
                 )
-                msg = "Sign-Up Successfull !!!"
-                return render (request,'Login.html',{'msg':msg})
+                messages.success(request, "Sign-Up Successful !!!")
+                return redirect ('login')
             else:
-                msg = "Password and Confirm Password does not match !!!"
-                return render (request,'Sign-Up.html',{'msg':msg})
+                messages.error(request, "Password and Confirm Password do not match !!!")
+                return render(request, 'Sign-Up.html')
     else:
         return render (request,'Sign-Up.html')
     

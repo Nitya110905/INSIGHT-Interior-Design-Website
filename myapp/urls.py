@@ -27,6 +27,8 @@ urlpatterns = [
     path('service/', views.service, name = 'service'),
     path('team/', views.team, name = 'team'),
     path('testimonial/', views.testimonial, name = 'testimonial'),
-    path('SignUp/', views.SignUp, name = 'SignUp'),
-    path('login/', views.Login, name = 'login'),
+    path('signup/', views.signup, name = 'signup'),
+    path('login/', views.login, name = 'login'),
+    path('fpass/', views.fpass, name = 'fpass'),
+    path('otp/', views.otp, name = 'otp'),
 ]

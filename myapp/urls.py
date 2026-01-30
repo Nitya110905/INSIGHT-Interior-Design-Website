@@ -34,4 +34,5 @@ urlpatterns = [
     path('resend_otp/', views.resend_otp, name='resend_otp'),
     path('logout/', views.logout, name='logout'),
     path('newpass/', views.newpass, name='newpass'),
+    path('uprofile/', views.uprofile, name='uprofile'),
 ]

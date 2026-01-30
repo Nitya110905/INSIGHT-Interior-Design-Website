@@ -1,21 +1,20 @@
-{% extends "common.html" %}
+{% extends 'common.html' %}
 {% load static %}
 {% block content %}
-
 
     <!-- Hero Start -->
     <div class="container-fluid pb-5 bg-primary hero-header">
         <div class="container py-5">
             <div class="row g-3 align-items-center">
                 <div class="col-lg-6 text-center text-lg-start">
-                    <h1 class="display-1 mb-0 animated slideInLeft">Sign-Up</h1>
+                    <h1 class="display-1 mb-0 animated slideInLeft">Profile-Update</h1>
                 </div>
                 <div class="col-lg-6 animated slideInRight">
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb justify-content-center justify-content-lg-end mb-0">
                             <li class="breadcrumb-item"><a class="text-primary" href="#!">Home</a></li>
                             <li class="breadcrumb-item"><a class="text-primary" href="#!">Pages</a></li>
-                            <li class="breadcrumb-item text-secondary active" aria-current="page">Sign-Up</li>
+                            <li class="breadcrumb-item text-secondary active" aria-current="page">Profile-Update</li>
                         </ol>
                     </nav>
                 </div>
@@ -25,69 +24,52 @@
     <!-- Hero End -->
 
 
-    <!-- Contact Start -->
+    <!-- Profile Update Start -->
     <div class="container-fluid py-5">
         <div class="container py-5">
             <div class="text-center wow fadeIn" data-wow-delay="0.1s">
-                <h1 class="mb-5">Visiting First Time? <span class="text-uppercase text-primary bg-light px-2">Sign-Up</span></h1>
+                <h1 class="mb-5">Have Any Query? <span class="text-uppercase text-primary bg-light px-2">Profile-Update</span></h1>
             </div>
             <div class="row justify-content-center">
                 <div class="col-lg-7">
+
                     <div class="wow fadeIn" data-wow-delay="0.3s">
-                        <form method="post" action="{% url 'signup' %}" enctype="multipart/form-data">
-                             {% csrf_token %}
+                        <form method="post" action="{% url 'uprofile' %}" enctype="multipart/form-data">
+                            {% csrf_token %}
                             <div class="row g-3">
                                 <div class="col-md-12">
                                     <div class="form-floating">
-                                        <select class="form-control" name="usertype" id="" required>
-                                            <option value="" selected>Sign-Up as ?</option>
-                                            <option value="">Stylist</option>
-                                            <option value="">Dreamer</option>
-                                        </select>  
-                                    </div>
+                                        <input type="text" style="margin:10px;" class="form-control" id="name" name = "name" value="{{ user.name }}">
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-floating">
-                                        <input type="text" class="form-control" id="name" name="name" placeholder="Your Name">
-                                        <label for="name">Your Name</label>
-                                    </div>
+                                        <input type="email" class="form-control" style="margin:10px;" id="email" name = "email" value="{{ user.email }}">
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-floating">
-                                        <input type="email" class="form-control" id="email" name="email" placeholder="Your Email">
-                                        <label for="email">Your Email</label>
+                                        <input type="tel" class="form-control" style="margin:10px;" id="mobile" name = "mobile" value="{{ user.contact }}">
                                     </div>
                                 </div>
-                                <div class="col-12">
+                                
+                                <div class="col-md-12">
                                     <div class="form-floating">
-                                        <input type="tel" class="form-control" id="Contact" name="contact" placeholder="Contact">
-                                        <label for="Contact">Contact</label>
+                                        <input type="file" class="form-control" style="margin:10px;" id="profile" name = "uprofile" value="{{ user.uprofile }}">
+                                    </div>
+                                </div>
                                     </div>
                                 </div>
                                 <div class="col-12">
-                                    <div class="form-floating">
-                                        <input type="Password" class="form-control" id="Password" name="password" placeholder="Password">
-                                        <label for="Password">Password</label>
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <div class="form-floating">
-                                        <input type="Password" class="form-control" id="Confirm Password" name="cpassword" placeholder="Confirm Password">
-                                        <label for="Confirm Password">Confirm Password</label>
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <button class="btn btn-primary w-100 py-3" type="submit">Sign Up</button>
+                                    <button class="btn btn-primary w-100 py-3" style="margin:10px;" type="submit">Update-Profile</button>
                                 </div>
                             </div>
+                            <a href="{% url 'logout' %}" class="nav-item nav-link">LogOut</a>
                         </form>
-                        <div style="margin-top:20px;">Already have an account? <a style="color: teal;" href="{% url 'login' %}">Login</a> Here!</div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <!-- Contact End -->
+    <!-- Profile Update End -->
 
 
     <!-- Newsletter Start -->
@@ -115,6 +97,4 @@
     </div>
     <!-- Newsletter End -->
 
-
-    <!-- Footer Start -->
-    {% endblock %}
+{% endblock %}

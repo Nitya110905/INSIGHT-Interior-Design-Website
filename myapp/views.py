@@ -43,7 +43,9 @@ def signup(request):
                     name = request.POST['name'],
                     email = request.POST['email'],
                     password = request.POST['password'],
-                    contact = request.POST['contact']
+                    contact = request.POST['contact'],
+                    usertype = request.POST['usertype']
+
                 )
                 messages.success(request, "sign-up Successful !")
                 return redirect ('login')
@@ -60,19 +62,24 @@ def login(request):
             user = User.objects.get(email = request.POST['email'])
             if user.password == request.POST['password']:
                 request.session['email'] = user.email
+                if user.uprofile:
+                    request.session['profile'] = user.uprofile.url
+                else:
+                    request.session['profile'] = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSnSSxXHLqu5lsHYkFlZkvXuo2ZamNvdqLiCg&s"
+        
                 messages.success(request,"Login Successful !")
                 return redirect('index')
             else:
                 messages.error(request, "Incorrect Credentials !")
                 return render (request,'login.html')
         except User.DoesNotExist:
-            messages.error(request,"Incorrect Credentials !")
+            messages.error(request,"Account Does not Exists !")
             return render(request,'login.html')
     else:
         return render (request,'login.html')
 
 def logout(request):
-    del request.session['email']
+    request.session.flush()
     messages.success(request,"Logout Successful !")
     return redirect('login')
 
@@ -109,7 +116,7 @@ def otp(request):
     created_time = request.session.get('otp_timestamp', 0)
     current_time = time.time()
     elapsed_time = int(current_time - created_time)
-    seconds_left = max(0, 60 - elapsed_time) # max(0, ...) is a cleaner way to ensure it's not negative
+    seconds_left = max(0, 60 - elapsed_time) 
 
     if request.method == "POST":
         try:
@@ -192,6 +199,25 @@ def newpass(request):
             return render(request, 'new-password.html')
 
     return render(request, 'new-password.html')
+
+def uprofile(request):
+    user = User.objects.get(email = request.session['email'])
+    if request.method == "POST":
+        user.name = request.POST['name']
+        user.contact = request.POST['mobile']\
+        
+        if 'uprofile' in request.FILES:
+            user.uprofile = request.FILES['uprofile']
+            user.save()
+            
+            request.session['profile'] = user.uprofile.url
+        user.save()
+        
+        messages.success(request, "Profile Updated Successfully!")
+        return redirect('uprofile') # Stays on profile page to show changes
+    else:   
+        return render(request, 'uprofile.html', {'user': user}) 
+
             
 
     

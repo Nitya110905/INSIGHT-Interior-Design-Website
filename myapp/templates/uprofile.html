@@ -51,9 +51,20 @@
                                     </div>
                                 </div>
                                 
-                                <div class="col-md-12">
-                                    <div class="form-floating">
-                                        <input type="file" class="form-control" style="margin:10px;" id="profile" name = "uprofile" value="{{ user.uprofile }}">
+                               <div class="col-md-12">
+                                    <div style="margin: 10px;">
+                                        <label>Current Profile Image:</label><br>
+                                        <img src="{{ user.image_url }}" id="preview-image" alt="Current Profile" width="100" height="100" onclick="pimage()" style="border-radius: 50%; object-fit: cover;">
+                                    </div>
+
+                                     <div class="form-floating">
+                                        {% if user.uprofile %}
+                                            <button type="button" class="btn btn-sm" onclick="removeImage()" style="margin: 10px;background-color: teal;color: white;display: none;">
+                                                Remove Image
+                                            </button>
+                                        {% endif %}
+                                        <input type="hidden" name="remove_image_flag" id="remove_flag" value="false">
+                                        <input type="file" id="file-input" class="form-control" style="margin:10px;display: none;" id="profile" name="uprofile">
                                     </div>
                                 </div>
                                     </div>
@@ -96,5 +107,26 @@
         </div>
     </div>
     <!-- Newsletter End -->
+
+    <script>
+        const defaultImgUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSnSSxXHLqu5lsHYkFlZkvXuo2ZamNvdqLiCg&s";
+        function removeImage() {
+        document.getElementById('preview-image').src = defaultImgUrl;
+        
+        // Clear the file input (in case they selected a file then clicked remove)
+        document.getElementById('file-input').value = "";
+        
+        // Set the hidden flag to "true" so Django knows to delete it
+        document.getElementById('remove_flag').value = "true";
+    }
+
+    document.getElementById('file-input').onchange = function() {
+    document.getElementById('remove_flag').value = "false";
+    };
+
+    pimage = ()=> function{
+        
+    }
+    </script>
 
 {% endblock %}

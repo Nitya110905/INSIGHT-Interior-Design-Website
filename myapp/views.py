@@ -204,15 +204,19 @@ def uprofile(request):
     user = User.objects.get(email = request.session['email'])
     if request.method == "POST":
         user.name = request.POST['name']
-        user.contact = request.POST['mobile']\
-        
+        user.contact = request.POST['mobile']
+
+        if request.POST.get('remove_image_flag') == "true":
+            user.uprofile.delete(save=False)
+            user.uprofile = None 
+            request.session['profile'] = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSnSSxXHLqu5lsHYkFlZkvXuo2ZamNvdqLiCg&s"
+
         if 'uprofile' in request.FILES:
             user.uprofile = request.FILES['uprofile']
-            user.save()
-            
+            user.save() 
             request.session['profile'] = user.uprofile.url
+
         user.save()
-        
         messages.success(request, "Profile Updated Successfully!")
         return redirect('uprofile') # Stays on profile page to show changes
     else:   

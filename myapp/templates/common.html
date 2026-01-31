@@ -72,7 +72,7 @@
                         </div>
                         <a href="{% url 'contact' %}" class="nav-item nav-link">Contact</a>
                         {% if request.session.email %}
-                            <div style="margin-left: 20px;"><a href="{% url 'uprofile' %}"><img src="{{request.session.profile}}" alt="" height = "30px" width = "30px" style="border-radius: 50%;"></a></div>
+                            <div style="margin-left: 20px;"><a href="{% url 'uprofile' %}"><img src="{{request.session.profile}}" alt="" height = "45px" width = "45px" style="border-radius: 50%; border:1px solid black"></a></div>
                         {% else %}
                         <a href="{% url 'signup' %}" class="nav-item nav-link">Sign-Up</a>
                         <a href="{% url 'login' %}" class="nav-item nav-link">Login</a>

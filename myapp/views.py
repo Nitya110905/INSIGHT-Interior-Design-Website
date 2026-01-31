@@ -206,15 +206,18 @@ def uprofile(request):
         user.name = request.POST['name']
         user.contact = request.POST['mobile']
 
-        if request.POST.get('remove_image_flag') == "true":
-            user.uprofile.delete(save=False)
-            user.uprofile = None 
-            request.session['profile'] = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSnSSxXHLqu5lsHYkFlZkvXuo2ZamNvdqLiCg&s"
-
         if 'uprofile' in request.FILES:
             user.uprofile = request.FILES['uprofile']
             user.save() 
             request.session['profile'] = user.uprofile.url
+
+        elif request.POST.get('remove_image_flag') == "true":
+
+            if user.uprofile:
+                user.uprofile.delete(save=False)
+                
+            user.uprofile = None
+            request.session['profile'] = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSnSSxXHLqu5lsHYkFlZkvXuo2ZamNvdqLiCg&s"
 
         user.save()
         messages.success(request, "Profile Updated Successfully!")

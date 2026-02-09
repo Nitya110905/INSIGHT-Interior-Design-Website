@@ -74,6 +74,7 @@
                                     <button class="btn btn-primary w-100 py-3" style="margin:10px;" type="submit">Update-Profile</button>
                                 </div>
                             </div>
+                            <a href="{% url 'changepass' %}" style="margin-right: 10px;font-weight: bolder; color: red; width: 200px;" class="nav-item nav-link">Change Password?</a>
                             <a href="{% url 'logout' %}" style="margin-right: 10px;font-weight: bolder; color: red; width: 0px;" class="nav-item nav-link">LogOut</a>
                         </form>
                     </div>
@@ -113,11 +114,7 @@
         const defaultImgUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSnSSxXHLqu5lsHYkFlZkvXuo2ZamNvdqLiCg&s";
         function removeImage() {
         document.getElementById('preview-image').src = defaultImgUrl;
-        
-        // Clear the file input (in case they selected a file then clicked remove)
         document.getElementById('file-input').value = "";
-        
-        // Set the hidden flag to "true" so Django knows to delete it
         document.getElementById('remove_flag').value = "true";
     }
 

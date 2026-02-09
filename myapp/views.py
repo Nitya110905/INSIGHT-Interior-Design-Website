@@ -221,9 +221,36 @@ def uprofile(request):
 
         user.save()
         messages.success(request, "Profile Updated Successfully!")
-        return redirect('uprofile') # Stays on profile page to show changes
+        return redirect('uprofile')
     else:   
         return render(request, 'uprofile.html', {'user': user}) 
+    
+def changepass(request):
+    user = User.objects.get(email = request.session['email'])
+    if request.method == "POST":
+        try:
+            if user.password == request.POST['opass']:
+                if request.POST['npass'] == request.POST['cnpass']:
+                    user.password = request.POST['npass']
+                    user.save()
+                    messages.success(request,"Password Updated Successfully !")
+                    return redirect("uprofile")
+                else:
+                    messages.error(request,"New Password and Confirm New Password does not match ! ")
+                    return render(request, 'changepass.html')
+            else:
+                messages.error(request,"Old Password is Incorrect !")
+                return render(request, 'changepass.html')
+        except:
+            pass
+    else:
+        return render(request, 'changepass.html')
+
+
+                    
+
+
+
 
             
 

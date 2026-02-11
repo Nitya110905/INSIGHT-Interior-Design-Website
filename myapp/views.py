@@ -1,11 +1,12 @@
 from django.shortcuts import render,redirect
 from django.contrib import messages
 from .models import User
+from .models import Designer
 from django.conf import settings
 from django.core.mail import send_mail
 import random
 import time
-# Create your views here.
+from django.db import IntegrityError
 
 def index(request):
     return render(request,'index.html')
@@ -39,12 +40,13 @@ def signup(request):
             return render(request,'sign-up.html')
         except User.DoesNotExist:
             if request.POST['password'] == request.POST['cpassword']:
+                u_type = request.POST.get('usertype')
                 User.objects.create(
                     name = request.POST['name'],
                     email = request.POST['email'],
                     password = request.POST['password'],
                     contact = request.POST['contact'],
-                    usertype = request.POST['usertype']
+                    usertype = u_type
 
                 )
                 messages.success(request, "sign-up Successful !")
@@ -62,6 +64,7 @@ def login(request):
             user = User.objects.get(email = request.POST['email'])
             if user.password == request.POST['password']:
                 request.session['email'] = user.email
+                request.session['usertype'] = user.usertype
                 if user.uprofile:
                     request.session['profile'] = user.uprofile.url
                 else:
@@ -154,7 +157,7 @@ def resend_otp(request):
             user = User.objects.get(email=email)
             new_otp = random.randint(111111, 999999)
             request.session['otp'] = new_otp
-            request.session['otp_timestamp'] = time.time() # Resets the 60s timer
+            request.session['otp_timestamp'] = time.time() # Reset the 60s timer
 
             subject = 'New OTP for Forgotten-Password!'
             msg = f'Hi {user.name}, Your NEW OTP is : {new_otp}.'
@@ -245,6 +248,32 @@ def changepass(request):
             pass
     else:
         return render(request, 'changepass.html')
+    
+
+def add_design(request):
+    if request.method == "POST":
+        try:
+            user = User.objects.get(email = request.session['email'])
+            Designer.objects.create(
+                user=user,
+                dname=request.POST['dname'],
+                dcategory=request.POST['dcategory'],
+                dstartprice=request.POST['dprice'],
+                dsummary=request.POST['dsummary'],
+                dimage=request.FILES['dimage'],
+                dimage2=request.FILES.get('dimage2'), 
+                dimage3=request.FILES.get('dimage3')
+            )
+            messages.success(request, "Design added successfully !")
+            return redirect('uprofile')
+        
+        except IntegrityError:
+            messages.error(request,f"You already have a design named '{request.POST['dname']}'. Please use a unique name.")
+            return render(request, 'add_design.html') 
+            
+    return render(request, 'add_design.html')
+
+
 
 
                     

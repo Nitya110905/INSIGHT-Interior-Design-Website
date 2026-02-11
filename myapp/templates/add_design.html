@@ -3,94 +3,96 @@
 {% block content %}
 
 
-    <!-- Hero Start -->
     <div class="container-fluid pb-5 bg-primary hero-header">
         <div class="container py-5">
             <div class="row g-3 align-items-center">
                 <div class="col-lg-6 text-center text-lg-start">
-                    <h1 class="display-1 mb-0 animated slideInLeft">Sign-Up</h1>
+                    <h1 class="display-1 mb-0 animated slideInLeft">Add-Design</h1>
                 </div>
                 <div class="col-lg-6 animated slideInRight">
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb justify-content-center justify-content-lg-end mb-0">
                             <li class="breadcrumb-item"><a class="text-primary" href="#!">Home</a></li>
                             <li class="breadcrumb-item"><a class="text-primary" href="#!">Pages</a></li>
-                            <li class="breadcrumb-item text-secondary active" aria-current="page">Sign-Up</li>
+                            <li class="breadcrumb-item text-secondary active" aria-current="page">Add-Design</li>
                         </ol>
                     </nav>
                 </div>
             </div>
         </div>
     </div>
-    <!-- Hero End -->
 
-
-    <!-- Contact Start -->
     <div class="container-fluid py-5">
         <div class="container py-5">
             <div class="text-center wow fadeIn" data-wow-delay="0.1s">
-                <h1 class="mb-5">Visiting First Time? <span class="text-uppercase text-primary bg-light px-2">Sign-Up</span></h1>
+                <h1 class="mb-5">Aha ! New Design <span class="text-uppercase text-primary bg-light px-2">Add Below!</span></h1>
             </div>
             <div class="row justify-content-center">
                 <div class="col-lg-7">
                     <div class="wow fadeIn" data-wow-delay="0.3s">
-                        <form method="post" action="{% url 'signup' %}" enctype="multipart/form-data">
+                        <form method="post" action="{% url 'add_design' %}" enctype="multipart/form-data">
                              {% csrf_token %}
                             <div class="row g-3">
                                 <div class="col-md-12">
                                     <div class="form-floating">
-                                            <select class="form-control" name="usertype" id="" required>
-                                                <option value="" selected>Sign-Up as ?</option>
-                                                <option value="Designer">Designer</option>
-                                                <option value="Dreamer">Dreamer</option>
-                                            </select>  
+                                        <select class="form-control" name="dcategory" id="" required>
+                                            <option value="" selected>Select Design Category</option>
+                                            <option value="Residential">Residential</option>
+                                            <option value="Commercial">Commercial</option>
+                                        </select>  
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-floating">
-                                        <input type="text" class="form-control" id="name" name="name" placeholder="Your Name">
-                                        <label for="name">Your Name</label>
+                                        <input type="text" class="form-control" id="dname" name="dname" placeholder="Your dname" required>
+                                        <label for="dname">Concept Name</label>
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-floating">
-                                        <input type="email" class="form-control" id="email" name="email" placeholder="Your Email">
-                                        <label for="email">Your Email</label>
+                                        <input type="text" class="form-control" id="dprice" name="dprice" placeholder="Your dprice" required>
+                                        <label for="dprice">Approx. Price</label>
                                     </div>
                                 </div>
                                 <div class="col-12">
                                     <div class="form-floating">
-                                        <input type="tel" class="form-control" id="Contact" name="contact" placeholder="Contact">
-                                        <label for="Contact">Contact</label>
+                                        <input type="text" class="form-control" id="dsummary" name="dsummary" placeholder="dsummary" required>
+                                        <label for="dsummary">Design Summary</label>
                                     </div>
                                 </div>
                                 <div class="col-12">
                                     <div class="form-floating">
-                                        <input type="Password" class="form-control" id="Password" name="password" placeholder="Password">
-                                        <label for="Password">Password</label>
+                                        <input type="file" class="form-control" id="dimage" name="dimage" required>
+                                        <label for="dimage">Main Design Image</label>
                                     </div>
                                 </div>
-                                <div class="col-12">
+
+                                <div class="col-12" id="div_dimage2" style="display:none;">
                                     <div class="form-floating">
-                                        <input type="Password" class="form-control" id="Confirm Password" name="cpassword" placeholder="Confirm Password">
-                                        <label for="Confirm Password">Confirm Password</label>
+                                        <input type="file" class="form-control" id="dimage2" name="dimage2">
+                                        <label for="dimage2">Secondary View 1</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-12" id="div_dimage3" style="display:none;">
+                                    <div class="form-floating">
+                                        <input type="file" class="form-control" id="dimage3" name="dimage3">
+                                        <label for="dimage3">Secondary View 2</label>
                                     </div>
                                 </div>
                                 <div class="col-12">
-                                    <button class="btn btn-primary w-100 py-3" type="submit">Sign Up</button>
+                                    <button class="btn btn-primary w-100 py-3" type="submit">Upload</button>
                                 </div>
                             </div>
                         </form>
-                        <div style="margin-top:20px;">Already have an account? <a style="color: teal;" href="{% url 'login' %}">Login</a> Here!</div>
+                        <button onclick="addimage()">Add Image</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <!-- Contact End -->
 
 
-    <!-- Newsletter Start -->
     <div class="container-fluid bg-primary newsletter p-0">
         <div class="container p-0">
             <div class="row g-0 align-items-center">
@@ -113,8 +115,18 @@
             </div>
         </div>
     </div>
-    <!-- Newsletter End -->
 
+    <script>
+        const addimage = () => {
+            const d2 = document.getElementById("div_dimage2");
+            const d3 = document.getElementById("div_dimage3");
 
-    <!-- Footer Start -->
+            if (d2.style.display === "none") {
+                d2.style.display = "block";
+            } else {
+                d3.style.display = "block";
+            }
+        }
+    </script>
+
     {% endblock %}

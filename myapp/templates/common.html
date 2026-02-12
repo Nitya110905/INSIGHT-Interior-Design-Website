@@ -20,6 +20,7 @@
     <!-- Icon Font Stylesheet -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
 
     <!-- Libraries Stylesheet -->
     <link href="{% static 'lib/animate/animate.min.css' %}" rel="stylesheet">
@@ -65,30 +66,32 @@
                                 <a href="{% url 'add_design' %}" class="nav-item nav-link">
                                 Add Design
                                 </a>
-                                <a href="{% url 'add_design' %}" class="nav-item nav-link">
+                                <a href="{% url 'add_design' %}" style="margin-right:10px" class="nav-item nav-link">
                                 Manage Design
                                 </a>
+                            {%else%}
+                                <a href="{% url 'service' %}" class="nav-item nav-link">Services</a>
+                                <div style="margin-left: 20px;"></div>
+                                    <i class="fa-solid fa-heart" style="color: #008080;font-size: x-large;"></i>
+                                    </a>
+                                </div>
                             {% endif %}
-
-                            <div style="margin-left: 20px;">
-                                <a href="{% url 'uprofile' %}">
-                                <img src="{{request.session.profile}}" alt="" height="45px" width="45px" style="border-radius: 50%; border:1px solid black">
-                                </a>
-                            </div>
-
+                                <div style="margin-left: 20px;"></div>
+                                    <a href="{% url 'uprofile' %}">
+                                        <img src="{{request.session.profile}}" alt="" height="45px" width="45px" style="border-radius: 50%; border:1px solid black">
+                                    </a>
+                                </div>
                         {% else %}
                             <a href="{% url 'service' %}" class="nav-item nav-link">Services</a>
-                            <div class="nav-item dropdown">
-                                <a href="#!" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
-                                <div class="dropdown-menu bg-light mt-2">
-                                    <a href="{% url 'feature' %}" class="dropdown-item">Features</a>
-                                    <a href="{% url 'team' %}" class="dropdown-item">Our Team</a>
-                                    <a href="{% url 'project' %}" class="dropdown-item">Projects</a>
-                                    <a href="{% url 'testimonial' %}" class="dropdown-item">Testimonial</a>
+                                <div class="nav-item dropdown">
+                                    <a href="#!" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
+                                    <div class="dropdown-menu bg-light mt-2">
+                                        <a href="{% url 'feature' %}" class="dropdown-item">Features</a>
+                                        <a href="{% url 'team' %}" class="dropdown-item">Our Team</a>
+                                        <a href="{% url 'project' %}" class="dropdown-item">Projects</a>
+                                        <a href="{% url 'testimonial' %}" class="dropdown-item">Testimonial</a>
+                                    </div>
                                 </div>
-                            </div>
-                            <a href="{% url 'contact' %}" class="nav-item nav-link">Contact</a>
-                        
                             <a href="{% url 'signup' %}" class="nav-item nav-link">Sign-Up</a>
                             <a href="{% url 'login' %}" class="nav-item nav-link">Login</a>
                         {% endif %}

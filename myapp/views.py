@@ -273,8 +273,11 @@ def add_design(request):
             
     return render(request, 'add_design.html')
 
-def manage_designs(request):
-    return render(request,"manage_designs.html")
+def manage_design(request):
+    user = User.objects.get(email = request.session['email'])
+    designer = Designer.objects.filter(user = user)
+
+    return render(request,'manage_design.html',{'designer' : designer})
 
 
 

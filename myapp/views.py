@@ -273,6 +273,9 @@ def add_design(request):
             
     return render(request, 'add_design.html')
 
+def manage_designs(request):
+    return render(request,"manage_designs.html")
+
 
 
 

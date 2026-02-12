@@ -60,21 +60,13 @@
                     <div class="navbar-nav ms-auto">
                         <a href="{% url 'index' %}" class="nav-item nav-link ">Home</a>
                         <a href="{% url 'about' %}" class="nav-item nav-link">About</a>
-                        <a href="{% url 'service' %}" class="nav-item nav-link">Services</a>
-                        <div class="nav-item dropdown">
-                            <a href="#!" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
-                            <div class="dropdown-menu bg-light mt-2">
-                                <a href="{% url 'feature' %}" class="dropdown-item">Features</a>
-                                <a href="{% url 'team' %}" class="dropdown-item">Our Team</a>
-                                <a href="{% url 'project' %}" class="dropdown-item">Projects</a>
-                                <a href="{% url 'testimonial' %}" class="dropdown-item">Testimonial</a>
-                            </div>
-                        </div>
-                        <a href="{% url 'contact' %}" class="nav-item nav-link">Contact</a>
                         {% if request.session.email %}
                             {% if request.session.usertype == "Designer" %}
                                 <a href="{% url 'add_design' %}" class="nav-item nav-link">
                                 Add Design
+                                </a>
+                                <a href="{% url 'add_design' %}" class="nav-item nav-link">
+                                Manage Design
                                 </a>
                             {% endif %}
 
@@ -85,6 +77,18 @@
                             </div>
 
                         {% else %}
+                            <a href="{% url 'service' %}" class="nav-item nav-link">Services</a>
+                            <div class="nav-item dropdown">
+                                <a href="#!" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
+                                <div class="dropdown-menu bg-light mt-2">
+                                    <a href="{% url 'feature' %}" class="dropdown-item">Features</a>
+                                    <a href="{% url 'team' %}" class="dropdown-item">Our Team</a>
+                                    <a href="{% url 'project' %}" class="dropdown-item">Projects</a>
+                                    <a href="{% url 'testimonial' %}" class="dropdown-item">Testimonial</a>
+                                </div>
+                            </div>
+                            <a href="{% url 'contact' %}" class="nav-item nav-link">Contact</a>
+                        
                             <a href="{% url 'signup' %}" class="nav-item nav-link">Sign-Up</a>
                             <a href="{% url 'login' %}" class="nav-item nav-link">Login</a>
                         {% endif %}

@@ -32,7 +32,7 @@
                     <div class="wow fadeIn" data-wow-delay="0.3s">
                         {%for d in designer %}
                             <button id="delete" style="background-color:teal;color: white;height: 60px;width: 60px;font-size: xx-large;position: relative;top: 310px;left: 800px;border: none;border-radius: 50%;"><i class="fa-regular fa-trash-can"></i></button>
-                            <button id="edit" style="background-color:teal;color: white;height: 60px;width: 60px;font-size: xx-large;position: relative;top: 210px;left: 733px;border: none;border-radius: 50%;"><i class="fa-regular fa-pen-to-square"></i></button>
+                            <a href="{% url "edit_design" %}"><button id="edit" style="background-color:teal;color: white;height: 60px;width: 60px;font-size: xx-large;position: relative;top: 210px;left: 733px;border: none;border-radius: 50%;"><i class="fa-regular fa-pen-to-square"></i></button></a>
                             <div class="col-md-6 col-lg-4 wow fadeIn" style="margin:20px 0px 50px 0px;display:flex; width:100%;height:400px" data-wow-delay="0.2s">
                                 <div class="project-item position-relative overflow-hidden">
                                     <img class="img-fluid w-100" src="{{ d.dimage.url }}" alt="">

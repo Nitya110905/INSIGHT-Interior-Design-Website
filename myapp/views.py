@@ -279,6 +279,9 @@ def manage_design(request):
 
     return render(request,'manage_design.html',{'designer' : designer})
 
+def edit_design(request):
+    return render(request,'edit_design.html')
+
 
 
 

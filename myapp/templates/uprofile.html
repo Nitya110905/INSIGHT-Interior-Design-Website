@@ -43,7 +43,7 @@
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-floating">
-                                        <input type="email" class="form-control" style="margin:10px;" id="email" name = "email" value="{{ user.email }}">
+                                        <input type="email" class="form-control" style="margin:10px;" id="email" name = "email" value="{{ user.email }}" readonly>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-floating">
@@ -74,7 +74,7 @@
                                     <button class="btn btn-primary w-100 py-3" style="margin:10px;" type="submit">Update-Profile</button>
                                 </div>
                             </div>
-                            <a href="{% url 'changepass' %}" style="margin-right: 10px;font-weight: bolder; color: red; width: 200px;" class="nav-item nav-link">Change Password?</a>
+                            <a href="{% url 'changepass' %}" style="margin-right: 10px;font-weight: bolder; color: red; width: 200px;" class="nav-item nav-link">Change Password ?</a>
                             <a href="{% url 'logout' %}" style="margin-right: 10px;font-weight: bolder; color: red; width: 0px;" class="nav-item nav-link">LogOut</a>
                         </form>
                     </div>

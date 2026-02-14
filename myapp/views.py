@@ -265,7 +265,7 @@ def add_design(request):
                 dimage3=request.FILES.get('dimage3')
             )
             messages.success(request, "Design added successfully !")
-            return redirect('uprofile')
+            return redirect('manage_design')
         
         except IntegrityError:
             messages.error(request,f"You already have a design named '{request.POST['dname']}'. Please use a unique name.")
@@ -305,6 +305,20 @@ def edit_design(request,pk):
     
     else:   
         return render(request, 'edit_design.html', {'design': design})
+    
+def delete_design(request, pk):
+    try:
+        user = User.objects.get(email=request.session['email'])
+        design = Designer.objects.get(id=pk, user=user) 
+        design.delete()
+        
+        messages.success(request, "Design Deleted Successfully!")
+        return redirect('manage_design') 
+        
+    except (User.DoesNotExist, Designer.DoesNotExist):
+        messages.error(request, "Design not found!")
+        return redirect('manage_design')
+
 
 
 

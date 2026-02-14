@@ -38,5 +38,5 @@ urlpatterns = [
     path('changepass/', views.changepass, name='changepass'),
     path('add_design/', views.add_design, name='add_design'),
     path('manage_design/',views.manage_design, name='manage_design'),
-    path('edit_design/',views.edit_design, name='edit_design'),
+    path('edit_design/<int:pk>/',views.edit_design, name='edit_design'),
 ]

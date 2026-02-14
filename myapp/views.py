@@ -279,8 +279,33 @@ def manage_design(request):
 
     return render(request,'manage_design.html',{'designer' : designer})
 
-def edit_design(request):
-    return render(request,'edit_design.html')
+def edit_design(request,pk):
+    try:
+        user = User.objects.get(email=request.session['email'])
+        design = Designer.objects.get(id=pk, user=user) 
+    except (User.DoesNotExist, Designer.DoesNotExist):
+        messages.error(request, "Design not found!")
+        return redirect('manage_design')
+
+    if request.method == "POST":
+        design.dname = request.POST['dname']
+        design.dstartprice = request.POST['dprice']
+        design.dsummary = request.POST['dsummary']
+        if request.FILES.get('dimage'):
+            design.dimage = request.FILES.get('dimage')
+        if request.FILES.get('dimage2'):
+            design.dimage2 = request.FILES.get('dimage2')
+        if request.FILES.get('dimage3'):
+            design.dimage3 = request.FILES.get('dimage3')
+
+        design.save()
+        
+        messages.success(request, "Design Updated Successfully!")
+        return redirect('edit_design',pk=design.id) 
+    
+    else:   
+        return render(request, 'edit_design.html', {'design': design})
+
 
 
 

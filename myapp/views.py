@@ -268,7 +268,7 @@ def add_design(request):
             return redirect('manage_design')
         
         except IntegrityError:
-            messages.error(request,f"You already have a design named '{request.POST['dname']}'. Please use a unique name.")
+            messages.error(request,f"You already have a design named '{request.POST['dname']}'. Please use a unique name !")
             return render(request, 'add_design.html') 
             
     return render(request, 'add_design.html')
@@ -284,7 +284,7 @@ def edit_design(request,pk):
         user = User.objects.get(email=request.session['email'])
         design = Designer.objects.get(id=pk, user=user) 
     except (User.DoesNotExist, Designer.DoesNotExist):
-        messages.error(request, "Design not found!")
+        messages.error(request, "Design not found !")
         return redirect('manage_design')
 
     if request.method == "POST":
@@ -300,7 +300,7 @@ def edit_design(request,pk):
 
         design.save()
         
-        messages.success(request, "Design Updated Successfully!")
+        messages.success(request, "Design Updated Successfully !")
         return redirect('edit_design',pk=design.id) 
     
     else:   
@@ -312,11 +312,11 @@ def delete_design(request, pk):
         design = Designer.objects.get(id=pk, user=user) 
         design.delete()
         
-        messages.success(request, "Design Deleted Successfully!")
+        messages.success(request, "Design Deleted Successfully !")
         return redirect('manage_design') 
         
     except (User.DoesNotExist, Designer.DoesNotExist):
-        messages.error(request, "Design not found!")
+        messages.error(request, "Design not found !")
         return redirect('manage_design')
 
 

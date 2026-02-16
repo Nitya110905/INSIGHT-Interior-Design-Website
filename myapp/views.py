@@ -318,6 +318,15 @@ def delete_design(request, pk):
     except (User.DoesNotExist, Designer.DoesNotExist):
         messages.error(request, "Design not found !")
         return redirect('manage_design')
+    
+def home(request):
+    all_designs = Designer.objects.all().order_by('-id')[:6] 
+    user_project_count = 0
+    if 'email' in request.session:
+        user = User.objects.get(email=request.session['email'])
+        user_project_count = Designer.objects.filter(user=user).count()
+
+    return render(request, 'home.html', {'all_designs': all_designs,'my_count': user_project_count})
 
 
 

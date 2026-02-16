@@ -59,9 +59,8 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarCollapse">
                     <div class="navbar-nav ms-auto">
-                        <a href="{% url 'index' %}" class="nav-item nav-link ">Home</a>
-                        <a href="{% url 'about' %}" class="nav-item nav-link">About</a>
                         {% if request.session.email %}
+                            <a href="{% url 'home' %}" class="nav-item nav-link ">Home</a>
                             {% if request.session.usertype == "Designer" %}
                                 <a href="{% url 'add_design' %}" class="nav-item nav-link">
                                 Add Design
@@ -82,6 +81,8 @@
                                     </a>
                                 </div>
                         {% else %}
+                            <a href="{% url 'index' %}" class="nav-item nav-link ">Home</a>
+                            <a href="{% url 'about' %}" class="nav-item nav-link">About</a>
                             <a href="{% url 'service' %}" class="nav-item nav-link">Services</a>
                                 <div class="nav-item dropdown">
                                     <a href="#!" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>

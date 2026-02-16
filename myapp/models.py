@@ -1,7 +1,6 @@
 from django.db import models
 from django.utils.text import slugify
 
-# Create your models here.
 class User(models.Model):
     name = models.CharField(max_length=40)
     email=models.EmailField(unique=True)
@@ -15,7 +14,6 @@ class User(models.Model):
         if self.uprofile and hasattr(self.uprofile, 'url'):
             return self.uprofile.url
         else:
-            # Return your default Google URL here
             return "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSnSSxXHLqu5lsHYkFlZkvXuo2ZamNvdqLiCg&s"
 
     def __str__(self):
@@ -48,3 +46,12 @@ class Designer(models.Model):
 
         verbose_name = "Interior Project"
         verbose_name_plural = "Interior Projects"
+
+
+class Moodboard(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    design = models.ForeignKey(Designer, on_delete=models.CASCADE)
+    added_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = [['user', 'design']]

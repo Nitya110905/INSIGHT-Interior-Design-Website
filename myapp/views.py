@@ -340,7 +340,9 @@ def home(request):
     return render(request, 'home.html', context)
 
 def design_info(request):
-    return render(request , 'design_info.html')
+    user = User.objects.get(email = request.session['email'])
+    design = Designer.objects.filter(user = user)
+    return render(request,'design_info.html')
 
 
 

@@ -71,7 +71,7 @@ def login(request):
                     request.session['profile'] = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSnSSxXHLqu5lsHYkFlZkvXuo2ZamNvdqLiCg&s"
         
                 messages.success(request,"Login Successful !")
-                return redirect('index')
+                return redirect('home')
             else:
                 messages.error(request, "Incorrect Credentials !")
                 return render (request,'login.html')
@@ -320,13 +320,24 @@ def delete_design(request, pk):
         return redirect('manage_design')
     
 def home(request):
-    all_designs = Designer.objects.all().order_by('-id')[:6] 
-    user_project_count = 0
+    context = {}
+    context['all_designs'] = Designer.objects.all().order_by('-id')[:6] 
+    
+    user_design_count = 0
     if 'email' in request.session:
-        user = User.objects.get(email=request.session['email'])
-        user_project_count = Designer.objects.filter(user=user).count()
+        try:
+            user = User.objects.get(email=request.session['email'])
+            context['user'] = user
+            user_design_count = Designer.objects.filter(user=user).count()
+            total_design_count = Designer.objects.count()
+            design = Designer.objects.all()
+        except User.DoesNotExist:
+            pass
+    context['my_count'] = user_design_count
+    context['total_count'] = total_design_count
+    context['design'] = design
 
-    return render(request, 'home.html', {'all_designs': all_designs,'my_count': user_project_count})
+    return render(request, 'home.html', context)
 
 
 

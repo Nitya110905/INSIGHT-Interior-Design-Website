@@ -2,19 +2,35 @@
 {% load static %}
 {% block content %}
 
-<div class="container-fluid bg-primary align-items:center justify-content:center hero-header mb-5">
-    <div class="container py-5 align-items:center justify-content:center">
-        <h1 class="display-3 text-white animated slideInDown">
-            Hello, Designer {{ request.session.name }}
-        </h1>
-        <p class="text-white">Ready to share your next big vision?</p>
+<div class="container-fluid bg-primary hero-header mb-5">
+    <div class="container py-5">
+        {% if request.session.usertype == "Designer" %}
+            <h1 class="display-3 text-black animated slideInDown">
+                Hello, Designer {{ user.name }}
+            </h1>
+            <p class="text-black">Your Designs : {{my_count}} / {{total_count}}</p>
+        {% else %}
+            <h1 class="display-3 text-black animated slideInDown">
+                Hello, Dreamer {{ user.name }}
+            </h1>
+        {% endif %}
         <div class="d-flex">
-            <a href="{% url 'add_design' %}" class="btn btn-dark py-3 px-5 me-3">Upload New Project</a>
-            <a href="{% url 'manage_design' %}" class="btn btn-outline-light py-3 px-5">My Portfolio</a>
         </div>
     </div>
 </div>
-
+            <div class="row g-0" style = "display:flex; flex-direction:row;">
+                {% for d in design %}
+                        <div class="col-md-6 col-lg-4 wow fadeIn" data-wow-delay="0.2s">
+                            <div class="project-item position-relative overflow-hidden m-5">
+                                <img class="img-fluid w-100" src="{{d.dimage.url}}" alt="">
+                                <a class="project-overlay text-decoration-none" href="#!">
+                                    <h4 class="text-white">{{d.dname}}</h4>
+                                    <small class="text-white">{{d.dcategory}}</small>
+                                </a>
+                            </div>
+                        </div>
+                {% endfor %}
+            </div>
 
     <!-- Newsletter Start -->
     <div class="container-fluid bg-primary newsletter p-0">

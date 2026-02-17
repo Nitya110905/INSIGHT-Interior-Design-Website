@@ -2,22 +2,6 @@
 {% load static %}
 {% block content %}
 
-<div class="container-fluid bg-primary hero-header mb-5">
-    <div class="container py-5">
-        {% if request.session.usertype == "Designer" %}
-            <h1 class="display-3 text-black animated slideInDown">
-                Hello, Designer {{ user.name }}
-            </h1>
-            <p class="text-black">Your Designs : {{my_count}} / {{total_count}}</p>
-        {% else %}
-            <h1 class="display-3 text-black animated slideInDown">
-                Hello, Dreamer {{ user.name }}
-            </h1>
-        {% endif %}
-        <div class="d-flex">
-        </div>
-    </div>
-</div>
             <div class="row g-0" style = "display:flex; flex-direction:row;">
                 {% for d in design %}
                         <div class="col-md-6 col-lg-4 wow fadeIn" data-wow-delay="0.2s">
@@ -55,9 +39,5 @@
             </div>
         </div>
     </div>
-    <!-- Newsletter End -->
-
-
-    <!-- Footer Start -->
     {% endblock %}
    

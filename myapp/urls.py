@@ -41,4 +41,5 @@ urlpatterns = [
     path('edit_design/<int:pk>/',views.edit_design, name='edit_design'),
     path('delete_design/<int:pk>/',views.delete_design, name='delete_design'),
     path('home/',views.home, name='home'),
+    path('design_info/',views.design_info, name='design_info'),
 ]

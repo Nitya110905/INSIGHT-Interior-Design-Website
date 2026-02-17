@@ -251,9 +251,9 @@ def changepass(request):
     
 
 def add_design(request):
+    user = User.objects.get(email = request.session['email'])
     if request.method == "POST":
         try:
-            user = User.objects.get(email = request.session['email'])
             Designer.objects.create(
                 user=user,
                 dname=request.POST['dname'],
@@ -338,6 +338,10 @@ def home(request):
     context['design'] = design
 
     return render(request, 'home.html', context)
+
+def design_info(request):
+    return render(request , 'design_info.html')
+
 
 
 

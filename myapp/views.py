@@ -310,13 +310,21 @@ def delete_design(request, pk):
     try:
         user = User.objects.get(email=request.session['email'])
         design = Designer.objects.get(id=pk, user=user) 
-        design.delete()
+        if design.dimage:
+            design.dimage.delete(save=False)
+            
+        if design.dimage2:
+            design.dimage2.delete(save=False)
+            
+        if design.dimage3:
+            design.dimage3.delete(save=False)
+        design.delete() 
         
-        messages.success(request, "Design Deleted Successfully !")
+        messages.success(request, "Design and all associated files deleted!")
         return redirect('manage_design') 
         
     except (User.DoesNotExist, Designer.DoesNotExist):
-        messages.error(request, "Design not found !")
+        messages.error(request, "Design not found!")
         return redirect('manage_design')
     
 def home(request):

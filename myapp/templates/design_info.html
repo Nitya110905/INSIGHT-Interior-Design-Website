@@ -2,14 +2,36 @@
 {% load static %}
 {% block content %}
 
-<div id="carouselExampleInterval" class="carousel slide carousel-fade" data-bs-ride="carousel">
-  <div class="carousel-inner">
+    <div class="container-fluid pb-5 bg-primary hero-header">
+        <div class="container py-5">
+            <div class="row g-3 align-items-center">
+                <div class="col-lg-6 text-center text-lg-start">
+                    <h6 class="display-10 mb-0 animated slideInLeft" style="margin-left: 10px;">{{design.dcategory}}</h6>
+                    <h1 class="display-1 mb-0 animated slideInLeft">{{design.dname}}</h1>
+                    <h4 class="display-10 mb-0 animated slideInLeft" style="margin-left: 10px;">{{design.dsummary}}</h4>
+                    <h4 class="display-5 mb-0 animated slideInLeft" style="margin-left: 10px;margin-top: 20px;">Starting Price : {{design.dstartprice}}</h4>
+                </div>
+                <div class="col-lg-6 animated slideInRight">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb justify-content-center justify-content-lg-end mb-0">
+                            <li class="breadcrumb-item"><a class="text-primary" href="#!">Home</a></li>
+                            <li class="breadcrumb-item"><a class="text-primary" href="#!">Pages</a></li>
+                            <li class="breadcrumb-item text-secondary active" aria-current="page">Design_Info</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<div id="carouselExampleInterval" class="carousel slide carousel-fade" data-bs-ride="carousel" style="height:500px;width:600px;margin:50px 0px 0px 475px">
+  <div class="carousel-inner" >
             <div class="carousel-item active" data-bs-interval="5000">
-                <img src="{{design.dimage.url}}" class="d-block w-100" alt="...">
+                <img src="{{design.dimage.url}}" style="height:440px;width:600px;" class="d-block w-100" alt="...">
             </div>
             {% if design.dimage2 %}
-                <div class="carousel-item" data-bs-interval="5000">
-                    <img src="{{design.dimage2.url}}" class="d-block w-100" alt="...">
+                <div class="carousel-item"  data-bs-interval="5000">
+                    <img src="{{design.dimage2.url}}" style="height:440px;width:600px;" class="d-block w-100" alt="...">
                 </div>
                 <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="prev">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -22,7 +44,7 @@
             {% endif %}
             {% if design.dimage3 %}
                 <div class="carousel-item" data-bs-interval="5000">
-                    <img src="{{design.dimage3.url}}" class="d-block w-100" alt="...">
+                    <img src="{{design.dimage3.url}}" style="height:440px;width:600px;" class="d-block w-100" alt="...">
                 </div>
                 <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="prev">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>

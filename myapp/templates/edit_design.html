@@ -27,7 +27,7 @@
             <div class="text-center wow fadeIn" data-wow-delay="0.1s">
                 <h1 class="mb-5">Any Updates ? <span class="text-uppercase text-primary bg-light px-2">Edit Below!</span></h1>
             </div>
-            <button onclick="addimage()" style="background-color:teal;color: white;height: 60px;width: 60px;font-size: xx-large;position: relative;top: 540px;left: 1040px;border: none;border-radius: 50%;">+</button>
+            <button onclick="addimage()" style="background-color:teal;color: white;height: 60px;width: 60px;font-size: xx-large;position: relative;top: 610px;left: 1040px;border: none;border-radius: 50%;">+</button>
             <div class="row justify-content-center">
                 <div class="col-lg-7">
                     <div class="wow fadeIn" data-wow-delay="0.3s">
@@ -59,22 +59,22 @@
                                     </div>
                                 </div>
                                 <div style="display: flex; flex-direction: row;">
-                                    <div class="col-md-6 col-lg-4 wow fadeIn" style="margin:20px 20px 0 0;display:flex; width:20%;height:150px" data-wow-delay="0.2s">
+                                    <div class="col-md-6 col-lg-4 wow fadeIn" style="margin:20px 20px 0 0;display:flex;" data-wow-delay="0.2s">
                                     <div class="project-item position-relative overflow-hidden">
-                                        <img class="img-fluid w-100" src="{{ design.dimage.url }}" alt="">
+                                        <img class="img-fluid w-100" style="height:200px;width: 200px" src="{{ design.dimage.url }}" alt="">
                                     </div>
                                 </div>
                                 {% if design.dimage2 %}
-                                    <div class="col-md-6 col-lg-4 wow fadeIn" style="margin:20px;display:flex; width:20%;height:150px" data-wow-delay="0.2s">
+                                    <div class="col-md-6 col-lg-4 wow fadeIn" style="margin:20px;display:flex;" data-wow-delay="0.2s">
                                     <div class="project-item position-relative overflow-hidden">
-                                        <img class="img-fluid w-100" src="{{ design.dimage2.url }}" alt="">
+                                        <img class="img-fluid w-100" style="height:200px;width: 200px" src="{{ design.dimage2.url }}" alt="">
                                     </div>
                                 </div>
                                 {% endif %}
                                 {% if design.dimage3 %}
-                                    <div class="col-md-6 col-lg-4 wow fadeIn" style="margin:20px;display:flex; width:20%;height:150px" data-wow-delay="0.2s">
+                                    <div class="col-md-6 col-lg-4 wow fadeIn" style="margin:20px;display:flex;" data-wow-delay="0.2s">
                                     <div class="project-item position-relative overflow-hidden">
-                                        <img class="img-fluid w-100" src="{{ design.dimage3.url }}" alt="">
+                                        <img class="img-fluid w-100" style="height:200px;width: 200px" src="{{ design.dimage3.url }}" alt="">
                                     </div>
                                 </div>
                                 {% endif %}

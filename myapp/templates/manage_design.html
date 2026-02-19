@@ -31,11 +31,11 @@
                 <div class="col-lg-7">
                     <div class="wow fadeIn" data-wow-delay="0.3s">
                         {%for d in designer %}
-                            <button id="delete" data-bs-toggle="modal" data-bs-target="#staticBackdrop" style="background-color:teal;color: white;height: 60px;width: 60px;font-size: xx-large;position: relative;top: 310px;left: 800px;border: none;border-radius: 50%;"><i class="fa-regular fa-trash-can"></i></button>
-                            <a href="{% url 'edit_design' d.id %}"><button id="edit" style="background-color:teal;color: white;height: 60px;width: 60px;font-size: xx-large;position: relative;top: 210px;left: 733px;border: none;border-radius: 50%;"><i class="fa-regular fa-pen-to-square"></i></button></a>
-                            <div class="col-md-6 col-lg-4 wow fadeIn" style="margin:20px 0px 50px 0px;display:flex; width:100%;height:400px" data-wow-delay="0.2s">
+                            <button id="delete" data-bs-toggle="modal" data-bs-target="#staticBackdrop" style="background-color:teal;color: white;height: 60px;width: 60px;font-size: xx-large;position: relative;top: 310px;left: 600px;border: none;border-radius: 50%;"><i class="fa-regular fa-trash-can"></i></button>
+                            <a href="{% url 'edit_design' d.id %}"><button id="edit" style="background-color:teal;color: white;height: 60px;width: 60px;font-size: xx-large;position: relative;top: 210px;left: 533px;border: none;border-radius: 50%;"><i class="fa-regular fa-pen-to-square"></i></button></a>
+                            <div class="col-md-6 col-lg-4 wow fadeIn" style="margin:20px 0px 50px 140px;display:flex; width:100%;height:400px" data-wow-delay="0.2s">
                                 <div class="project-item position-relative overflow-hidden">
-                                    <img class="img-fluid w-100" src="{{ d.dimage.url }}" alt="">
+                                    <img class="img-fluid w-100" style="height: 400px; width: inherit" src="{{ d.dimage.url }}" alt="">
                                     <a class="project-overlay text-decoration-none" href="#!">
                                         <h4 class="text-white">{{ d.dname }}</h4>
                                         <small class="text-white">{{ d.dcategory }}</small>
@@ -43,22 +43,22 @@
                                 </div>
                             </div>
                             <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header" style="background-color:teal;">
-        <h1 class="modal-title fs-5" style="color:white" id="staticBackdropLabel">Delete {{d.dname}} ?</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body" style="color:black;font-weight:700;font-size:xl">
-        This Action Cannot Be Undo !!!
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn" style="background-color:teal;color:white" data-bs-dismiss="modal">Cancel</button>
-        <a href="{% url 'delete_design' d.id %}"><button type="button" class="btn btn-danger">Delete</button></a>
-      </div>
-    </div>
-  </div>
-</div>
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                    <div class="modal-header" style="background-color:teal;">
+                                        <h1 class="modal-title fs-5" style="color:white" id="staticBackdropLabel">Delete {{d.dname}} ?</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body" style="color:black;font-weight:700;font-size:xl">
+                                        This Action Cannot Be Undo !!!
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn" style="background-color:teal;color:white" data-bs-dismiss="modal">Cancel</button>
+                                        <a href="{% url 'delete_design' d.id %}"><button type="button" class="btn btn-danger">Delete</button></a>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
                         {% endfor %}
                     </div>
                 </div>

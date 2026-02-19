@@ -6,12 +6,12 @@
     <div class="container py-5">
         {% if request.session.usertype == "Designer" %}
             <h1 class="display-3 text-black animated slideInDown">
-                Hello, Designer {{ user.name }}
+                Hello, Designer {{ user.name }} !
             </h1>
             <p class="text-black">Your Designs : {{my_count}} / {{total_count}}</p>
         {% else %}
             <h1 class="display-3 text-black animated slideInDown">
-                Hello, Dreamer {{ user.name }}
+                Hello, Dreamer {{ user.name }} !
             </h1>
         {% endif %}
         <div class="d-flex">
@@ -21,8 +21,10 @@
             <div class="row g-0" style = "display:flex; flex-direction:row;">
                 {% for d in design %}
                         <div class="col-md-6 col-lg-4 wow fadeIn" data-wow-delay="0.2s">
+                            <div style="height: 20px; width:200px;background-color: #fff;"></div>
                             <div class="project-item position-relative overflow-hidden m-5">
-                                <a href="{% url 'design_info' %}"><img class="img-fluid w-100" src="{{d.dimage.url}}" alt=""></a>
+                                <h5 style="height: 20px; width:160px;color:white;position: absolute;top: 10px;left:10px">Starting From : {{d.dstartprice}}/-</h5>
+                                <a href="{% url 'design_info' %}"><img class="img-fluid w-100" style="height: 400px; width: 400px;" src="{{d.dimage.url}}" alt=""></a>
                                 <a class="project-overlay text-decoration-none" href="#!">
                                     <h4 class="text-white">{{d.dname}}</h4>
                                     <small class="text-white">{{d.dcategory}}</small>

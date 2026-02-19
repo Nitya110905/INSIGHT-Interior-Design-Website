@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils.text import slugify
+import uuid
 
 class User(models.Model):
     name = models.CharField(max_length=40)
@@ -33,6 +34,7 @@ class Designer(models.Model):
     dimage = models.ImageField(upload_to='interior')
     dimage2 = models.ImageField(upload_to='interior', null=True, blank=True)
     dimage3 = models.ImageField(upload_to='interior', null=True, blank=True)
+    slug = models.SlugField(unique=True, null=True, blank=True)
 
     def __str__(self):
         return f"{self.dname}"
@@ -46,6 +48,15 @@ class Designer(models.Model):
 
         verbose_name = "Interior Project"
         verbose_name_plural = "Interior Projects"
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            base_slug = slugify(self.dname)
+            if Designer.objects.filter(slug=base_slug).exists():
+                self.slug = f"{base_slug}-{str(uuid.uuid4())[:4]}"
+            else:
+                self.slug = base_slug
+        super().save(*args, **kwargs)
 
 
 class Moodboard(models.Model):

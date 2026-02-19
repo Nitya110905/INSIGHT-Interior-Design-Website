@@ -347,10 +347,25 @@ def home(request):
 
     return render(request, 'home.html', context)
 
-def design_info(request):
-    user = User.objects.get(email = request.session['email'])
-    design = Designer.objects.filter(user = user)
-    return render(request,'design_info.html')
+def design_info(request, design_slug):
+    if 'email' not in request.session:
+        messages.error(request, "Please login to view project details.")
+        return redirect('login')
+
+    try:
+        user = User.objects.get(email=request.session['email'])
+        design = Designer.objects.get(slug=design_slug)
+        
+        return render(request, 'design_info.html', {
+            'design': design,
+            'user': user 
+        })
+        
+    except User.DoesNotExist:
+        return redirect('logout') 
+    except Designer.DoesNotExist:
+        messages.error(request, "The requested design does not exist.")
+        return redirect('home')
 
 
 

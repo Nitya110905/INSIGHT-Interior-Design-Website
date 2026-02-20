@@ -210,8 +210,10 @@ def uprofile(request):
         user.contact = request.POST['mobile']
 
         if 'uprofile' in request.FILES:
-            user.uprofile = request.FILES['uprofile']
-            user.save() 
+            if user.uprofile:
+                user.uprofile.delete(save=False)
+
+            user.uprofile = request.FILES['uprofile'] 
             request.session['profile'] = user.uprofile.url
 
         elif request.POST.get('remove_image_flag') == "true":
@@ -292,10 +294,19 @@ def edit_design(request,pk):
         design.dstartprice = request.POST['dprice']
         design.dsummary = request.POST['dsummary']
         if request.FILES.get('dimage'):
+            if design.dimage:
+                design.dimage.delete(save=False)
+
             design.dimage = request.FILES.get('dimage')
         if request.FILES.get('dimage2'):
+            if design.dimage2:
+                design.dimage2.delete(save=False)
+
             design.dimage2 = request.FILES.get('dimage2')
         if request.FILES.get('dimage3'):
+            if design.dimage3:
+                design.dimage3.delete(save=False)
+
             design.dimage3 = request.FILES.get('dimage3')
 
         design.save()

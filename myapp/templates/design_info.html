@@ -2,86 +2,106 @@
 {% load static %}
 {% block content %}
 
-    <div class="container-fluid pb-5 bg-primary hero-header">
-        <div class="container py-5">
-            <div class="row g-3 align-items-center">
-                <div class="col-lg-6 text-center text-lg-start">
-                    <h6 class="display-10 mb-0 animated slideInLeft" style="margin-left: 10px;">{{design.dcategory}}</h6>
-                    <h1 class="display-1 mb-0 animated slideInLeft">{{design.dname}}</h1>
-                    <h4 class="display-10 mb-0 animated slideInLeft" style="margin-left: 10px;">{{design.dsummary}}</h4>
-                    <h4 class="display-9 mb-0 animated slideInLeft" style="margin-left: 10px;margin-top: 20px;">Starting Price : <b>{{design.dstartprice}}</b></h4>
-                    <h6 class="display-10 mb-0 animated slideInLeft" style="margin-left: 10px;margin-top: 20px;">By Designer : {{design.user}}</h6>
-                </div>
-                <div class="col-lg-6 animated slideInRight">
-                    <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb justify-content-center justify-content-lg-end mb-0">
-                            <li class="breadcrumb-item"><a class="text-primary" href="#!">Home</a></li>
-                            <li class="breadcrumb-item"><a class="text-primary" href="#!">Pages</a></li>
-                            <li class="breadcrumb-item text-secondary active" aria-current="page">Design_Info</li>
-                        </ol>
-                    </nav>
-                </div>
+<div class="container-fluid pb-5 bg-primary hero-header">
+    <div class="container py-5">
+        <div class="row g-3 align-items-center">
+            <div class="col-lg-6 text-center text-lg-start">
+                <h6 class="display-10 mb-0 animated slideInLeft" style="margin-left: 10px;">{{design.dcategory}}</h6>
+                <h1 class="display-1 mb-0 animated slideInLeft">{{design.dname}}</h1>
+                <h4 class="display-10 mb-0 animated slideInLeft" style="margin-left: 10px;">{{design.dsummary}}</h4>
+                <h4 class="display-9 mb-0 animated slideInLeft" style="margin-left: 10px;margin-top: 20px;">Starting
+                    Price : <b>{{design.dstartprice}}</b></h4>
+                <h6 class="display-10 mb-0 animated slideInLeft" style="margin-left: 10px;margin-top: 20px;">By Designer
+                    : {{design.user}}</h6>
+            </div>
+            <div class="col-lg-6 animated slideInRight">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb justify-content-center justify-content-lg-end mb-0">
+                        <li class="breadcrumb-item"><a class="text-primary" href="#!">Home</a></li>
+                        <li class="breadcrumb-item"><a class="text-primary" href="#!">Pages</a></li>
+                        <li class="breadcrumb-item text-secondary active" aria-current="page">Design_Info</li>
+                    </ol>
+                </nav>
             </div>
         </div>
-    </div>
-
-<div id="carouselExampleInterval" class="carousel slide carousel-fade" data-bs-ride="carousel" style="height:500px;width:600px;margin:50px 0px 0px 475px">
-  <div class="carousel-inner" >
-            <div class="carousel-item active" data-bs-interval="5000">
-                <img src="{{design.dimage.url}}" style="height:440px;width:600px;" class="d-block w-100" alt="...">
-            </div>
-            {% if design.dimage2 %}
-                <div class="carousel-item"  data-bs-interval="5000">
-                    <img src="{{design.dimage2.url}}" style="height:440px;width:600px;" class="d-block w-100" alt="...">
-                </div>
-                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Previous</span>
-                </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Next</span>
-                </button>
-            {% endif %}
-            {% if design.dimage3 %}
-                <div class="carousel-item" data-bs-interval="5000">
-                    <img src="{{design.dimage3.url}}" style="height:440px;width:600px;" class="d-block w-100" alt="...">
-                </div>
-                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Previous</span>
-                </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Next</span>
-                </button>
-            {% endif %}
     </div>
 </div>
 
 
-    <!-- Newsletter Start -->
-    <div class="container-fluid bg-primary newsletter p-0">
-        <div class="container p-0">
-            <div class="row g-0 align-items-center">
-                <div class="col-md-5 ps-lg-0 text-start wow fadeIn" data-wow-delay="0.2s">
-                    <img class="img-fluid w-100" src="{% static 'img/newsletter.jpg' %}" alt="">
-                </div>
-                <div class="col-md-7 py-5 newsletter-text wow fadeIn" data-wow-delay="0.5s">
-                    <div class="p-5">
-                        <h1 class="mb-5">Subscribe the <span
-                                class="text-uppercase text-primary bg-white px-2">Newsletter</span></h1>
-                        <div class="position-relative w-100 mb-2">
-                            <input class="form-control border-0 w-100 ps-4 pe-5" type="text"
-                                placeholder="Enter Your Email" style="height: 60px;">
-                            <button type="button" class="btn shadow-none position-absolute top-0 end-0 mt-2 me-2"><i
-                                    class="fa fa-paper-plane text-primary fs-4"></i></button>
-                        </div>
-                        <p class="mb-0">Diam sed sed dolor stet amet eirmod</p>
+<div
+    style="height: 500px;width: 100% ;margin:50px 0px 0px 0px;display: flex;flex-direction: row-reverse;justify-content: start;">
+    {% if request.session.usertype == "Dreamer" %}
+    <div style="height: 400px; width: 400px;margin-left: 20px;">
+        <button id="delete" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
+            style="background-color:teal;color: white;height: 60px;width: 70%;font-size: x-large;position: relative;top: 150px;border: none;border-radius: 50px;">Contact
+            Designer</button>
+        <a href=""><button id="edit"
+                style="background-color:teal;color: white;height: 60px;width: 70%;font-size: x-large;position: relative;top: 200px;border: none;border-radius: 50px;">Add
+                to MoodBoard</button></a>
+    </div>
+    {% endif %}
+    <div id="carouselExampleInterval" class="carousel slide carousel-fade" data-bs-ride="carousel"
+        style="height:500px;width:600px;margin-left: 425px;">
+        <div class="carousel-inner">
+            <div class="carousel-item active" data-bs-interval="5000">
+                <img src="{{design.dimage.url}}" style="height:440px;width:600px;" class="d-block w-100" alt="...">
+            </div>
+            {% if design.dimage2 %}
+            <div class="carousel-item" data-bs-interval="5000">
+                <img src="{{design.dimage2.url}}" style="height:440px;width:600px;" class="d-block w-100" alt="...">
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleInterval"
+                data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleInterval"
+                data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+            {% endif %}
+            {% if design.dimage3 %}
+            <div class="carousel-item" data-bs-interval="5000">
+                <img src="{{design.dimage3.url}}" style="height:440px;width:600px;" class="d-block w-100" alt="...">
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleInterval"
+                data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleInterval"
+                data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+
+<!-- Newsletter Start -->
+<div class="container-fluid bg-primary newsletter p-0">
+    <div class="container p-0">
+        <div class="row g-0 align-items-center">
+            <div class="col-md-5 ps-lg-0 text-start wow fadeIn" data-wow-delay="0.2s">
+                <img class="img-fluid w-100" src="{% static 'img/newsletter.jpg' %}" alt="">
+            </div>
+            <div class="col-md-7 py-5 newsletter-text wow fadeIn" data-wow-delay="0.5s">
+                <div class="p-5">
+                    <h1 class="mb-5">Subscribe the <span
+                            class="text-uppercase text-primary bg-white px-2">Newsletter</span></h1>
+                    <div class="position-relative w-100 mb-2">
+                        <input class="form-control border-0 w-100 ps-4 pe-5" type="text" placeholder="Enter Your Email"
+                            style="height: 60px;">
+                        <button type="button" class="btn shadow-none position-absolute top-0 end-0 mt-2 me-2"><i
+                                class="fa fa-paper-plane text-primary fs-4"></i></button>
                     </div>
+                    <p class="mb-0">Diam sed sed dolor stet amet eirmod</p>
                 </div>
             </div>
         </div>
     </div>
-    {% endblock %}
-   
+</div>
+{% endblock %}

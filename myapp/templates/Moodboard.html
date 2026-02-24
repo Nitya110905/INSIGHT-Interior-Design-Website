@@ -21,14 +21,14 @@
     </div>
 
             <div class="row g-0" style = "display:flex; flex-direction:row;">
-                {% for d in design %}
+                {% for item in design %}
                         <div class="col-md-6 col-lg-4 wow fadeIn" data-wow-delay="0.2s">
                             <div class="project-item position-relative overflow-hidden m-5">
-                                <img class="img-fluid w-100" style="height: 400px; width: 400px;" src="{{d.dimage.url}}" alt="">
-                                <a class="project-overlay text-decoration-none" href="{% url 'design_info' d.slug %}">
-                                    <h5 style="height: 20px; width:160px;color:white;position: absolute;top: 10px;left:10px">Starting From : {{d.dstartprice}}/-</h5>
-                                    <h4 class="text-white">{{d.dname}}</h4>
-                                    <small class="text-white">{{d.dcategory}}</small>
+                                <img class="img-fluid w-100" style="height: 400px; width: 400px;" src="{{item.design.dimage.url}}" alt="">
+                                <a class="project-overlay text-decoration-none" href="{% url 'design_info' item.design.slug %}">
+                                    <h5 style="height: 20px; width:160px;color:white;position: absolute;top: 10px;left:10px">Starting From : {{item.design.dstartprice}}/-</h5>
+                                    <h4 class="text-white">{{item.design.dname}}</h4>
+                                    <small class="text-white">{{item.design.dcategory}}</small>
                                 </a>
                             </div>
                         </div>

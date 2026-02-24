@@ -387,9 +387,12 @@ def moodboard_add(request, pk):
     try:
         user = User.objects.get(email=request.session['email'])
         design = Designer.objects.get(id=pk) 
-        Moodboard.objects.get_or_create(user=user, design=design)
-        
-        messages.success(request, "Design Added to Moodboard Successfully!")
+        obj, created = Moodboard.objects.get_or_create(user=user, design=design)
+
+        if created:
+            messages.success(request, "Added to your moodboard!")
+        else:
+            messages.info(request, "This design is already in your moodboard.")
         return redirect('design_info', design_slug=design.slug)
         
     except Designer.DoesNotExist:

@@ -2,6 +2,7 @@ from django.shortcuts import render,redirect
 from django.contrib import messages
 from .models import User
 from .models import Designer
+from .models import Moodboard
 from django.conf import settings
 from django.core.mail import send_mail
 import random
@@ -377,6 +378,38 @@ def design_info(request, design_slug):
     except Designer.DoesNotExist:
         messages.error(request, "The requested design does not exist.")
         return redirect('home')
+    
+def moodboard_add(request, pk):
+    if 'email' not in request.session:
+        messages.error(request, "Please login to add designs to your moodboard!")
+        return redirect('login')
+
+    try:
+        user = User.objects.get(email=request.session['email'])
+        design = Designer.objects.get(id=pk) 
+        Moodboard.objects.get_or_create(user=user, design=design)
+        
+        messages.success(request, "Design Added to Moodboard Successfully!")
+        return redirect('design_info', design_slug=design.slug)
+        
+    except Designer.DoesNotExist:
+        messages.error(request, "Design not found!")
+        return redirect('home')
+    
+def moodboard(request):
+    if 'email' not in request.session:
+        return redirect('login')
+
+    try:
+        user = User.objects.get(email=request.session['email'])
+        design = Moodboard.objects.filter(user=user).select_related('design')
+
+        return render(request, 'moodboard.html', {'design': design})
+        
+    except User.DoesNotExist:
+        return redirect('logout')
+    
+
 
 
 

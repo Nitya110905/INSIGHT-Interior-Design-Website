@@ -35,7 +35,7 @@
         <button id="delete" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
             style="background-color:teal;color: white;height: 60px;width: 70%;font-size: x-large;position: relative;top: 150px;border: none;border-radius: 50px;">Contact
             Designer</button>
-        <a href=""><button id="edit"
+        <a href="{% url 'moodboard_add' design.id %}"><button id="edit"
                 style="background-color:teal;color: white;height: 60px;width: 70%;font-size: x-large;position: relative;top: 200px;border: none;border-radius: 50px;">Add
                 to MoodBoard</button></a>
     </div>

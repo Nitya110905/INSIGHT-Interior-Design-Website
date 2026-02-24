@@ -1,0 +1,3 @@
+=> View :-
+
+- By using select_related('design') in your Python code, you are telling Django to grab the Design details and the Moodboard link in one single "trip" to the database.

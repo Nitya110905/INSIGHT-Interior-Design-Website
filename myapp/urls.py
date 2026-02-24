@@ -42,4 +42,6 @@ urlpatterns = [
     path('delete_design/<int:pk>/',views.delete_design, name='delete_design'),
     path('home/',views.home, name='home'),
     path('design_info/<slug:design_slug>/',views.design_info, name='design_info'),
+    path('moodboard_add/<int:pk>/',views.moodboard_add,name='moodboard_add'),
+    path('moodboard/',views.moodboard,name='moodboard'),
 ]

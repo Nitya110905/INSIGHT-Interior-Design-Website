@@ -1,0 +1,56 @@
+<!> Project Set-up:
+
+1. pip instal virtualenv
+
+2. python -m venv myenv
+
+3. cd myenv
+
+4. Scripts\activate
+
+5. pip install django
+
+6. django-admin startproject mvproject
+
+7. cd myproject
+
+8. django-admin startapp myapp
+
+9. python manage.py migrate
+
+10. python manage.py runserver
+
+11. python manage.py createsuperuser : for admin creation
+
+12. python manage.py makemigrations : To create tables and update changes in model
+-> After the above command repeat 9. & 10.
+
+13. python manage.py showmigrations: Lists all migrations in the project and shows which ones are applied (marked with an [X]).
+
+14. python manage.py sqlmigrate myapp 0001: Shows the actual SQL code that Django is about to run for a specific migration. Great for debugging database errors.
+
+15. Dependency Management (Crucial):
+
+When you share your project or deploy it, you need a way to tell others which libraries you installed.
+
+=> pip freeze > requirements.txt: Creates a text file listing every library installed in your virtual environment.
+
+=> pip install -r requirements.txt: Installs everything listed in that file. This is the first thing you do when downloading an existing project.
+
+16. Security & Testing:
+
+=> python manage.py check: Scans your entire project for common problems and configuration errors without running the server.
+
+=> python manage.py test: Runs any automated tests you’ve written in tests.py.
+
+=> python manage.py shell: Opens an interactive Python terminal with all your project’s settings loaded. You can use this to manually add, delete, or query data from your database using Python code.
+
+17. python manage.py collectstatic: Gathers all your CSS, JavaScript, and images into a single folder for the web server to use.
+
+18. Reset/Check DB:python manage.py dbshell (Enter DB directly)
+
+19. Change Password: python manage.py changepassword <username>
+
+20. Find Errors: python manage.py check --deploy (Checks security)
+
+21. Clean Up: pip cache purge (If installs are failing

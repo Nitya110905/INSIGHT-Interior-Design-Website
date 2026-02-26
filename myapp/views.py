@@ -42,13 +42,17 @@ def signup(request):
         except User.DoesNotExist:
             if request.POST['password'] == request.POST['cpassword']:
                 u_type = request.POST.get('usertype')
+                fee = request.POST.get('cf')
+                if not fee or u_type == "Dreamer":
+                    fee = 0
+                
                 User.objects.create(
-                    name = request.POST['name'],
-                    email = request.POST['email'],
-                    password = request.POST['password'],
-                    contact = request.POST['contact'],
-                    usertype = u_type
-
+                    name=request.POST['name'],
+                    email=request.POST['email'],
+                    password=request.POST['password'],
+                    contact=request.POST['contact'],
+                    consultation_fee=fee, # Now it's safely a number
+                    usertype=u_type
                 )
                 messages.success(request, "sign-up Successful !")
                 return redirect ('login')
@@ -411,6 +415,9 @@ def moodboard(request):
         
     except User.DoesNotExist:
         return redirect('logout')
+    
+def designer_info(request):
+    return render(request,"designer_info.html")
     
 
 

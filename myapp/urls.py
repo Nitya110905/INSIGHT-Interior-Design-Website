@@ -44,4 +44,5 @@ urlpatterns = [
     path('design_info/<slug:design_slug>/',views.design_info, name='design_info'),
     path('moodboard_add/<int:pk>/',views.moodboard_add,name='moodboard_add'),
     path('moodboard/',views.moodboard,name='moodboard'),
-]
+    path('designer_info/',views.designer_info,name='designer_info'),
+    ]

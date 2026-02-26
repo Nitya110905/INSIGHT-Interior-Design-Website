@@ -83,19 +83,18 @@
     <!-- Newsletter End -->
 
     <script>
-        // Start the timer with the value passed from Django
         let timeLeft = parseInt("{{ seconds_left|default:0 }}"); 
 
         let timerElement = document.getElementById('timer');
         let resendLink = document.getElementById('resend-link');
-        let submitBtn = document.getElementById('submit-btn'); // Add an ID to your submit button
+        let submitBtn = document.getElementById('submit-btn'); 
 
         let countdown = setInterval(function() {
             if (timeLeft <= 0) {
                 clearInterval(countdown);
                 timerElement.innerHTML = "0:00 (Expired)";
                 resendLink.style.display = "block"; 
-                submitBtn.disabled = true; // Stop user from submitting an expired OTP
+                submitBtn.disabled = true; 
                 return;
             }
 

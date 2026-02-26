@@ -10,7 +10,7 @@
                 <h1 class="display-1 mb-0 animated slideInLeft">{{design.dname}}</h1>
                 <h4 class="display-10 mb-0 animated slideInLeft" style="margin-left: 10px;">{{design.dsummary}}</h4>
                 <h4 class="display-9 mb-0 animated slideInLeft" style="margin-left: 10px;margin-top: 20px;">Starting
-                    Price : <b>{{design.dstartprice}}</b></h4>
+                    Price : <b>₹ {{design.dstartprice}} /-</b></h4>
                 <h6 class="display-10 mb-0 animated slideInLeft" style="margin-left: 10px;margin-top: 20px;">By Designer
                     : {{design.user}}</h6>
             </div>
@@ -32,9 +32,8 @@
     style="height: 500px;width: 100% ;margin:50px 0px 0px 0px;display: flex;flex-direction: row-reverse;justify-content: start;">
     {% if request.session.usertype == "Dreamer" %}
     <div style="height: 400px; width: 400px;margin-left: 20px;">
-        <button id="delete" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
-            style="background-color:teal;color: white;height: 60px;width: 70%;font-size: x-large;position: relative;top: 150px;border: none;border-radius: 50px;">Contact
-            Designer</button>
+        <a href="{% url 'designer_info' %}"><button id="delete" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
+            style="background-color:teal;color: white;height: 60px;width: 70%;font-size: x-large;position: relative;top: 150px;border: none;border-radius: 50px;">Book a Visit</button></a>
         <a href="{% url 'moodboard_add' design.id %}"><button id="edit"
                 style="background-color:teal;color: white;height: 60px;width: 70%;font-size: x-large;position: relative;top: 200px;border: none;border-radius: 50px;">Add
                 to MoodBoard</button></a>

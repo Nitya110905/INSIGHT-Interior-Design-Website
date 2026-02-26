@@ -39,7 +39,7 @@
                             <div class="row g-3">
                                 <div class="col-md-12">
                                     <div class="form-floating">
-                                            <select class="form-control" name="usertype" id="" required>
+                                            <select class="form-control" name="usertype" id="userTypeSelect" onchange="toggleFees()" required>
                                                 <option value="" selected>Sign-Up as ?</option>
                                                 <option value="Designer">Designer</option>
                                                 <option value="Dreamer">Dreamer</option>
@@ -74,6 +74,12 @@
                                     <div class="form-floating">
                                         <input type="Password" class="form-control" id="Confirm Password" name="cpassword" placeholder="Confirm Password">
                                         <label for="Confirm Password">Confirm Password</label>
+                                    </div>
+                                </div>
+                                <div class="col-12" id="cf" style="display:none;">
+                                    <div class="form-floating">
+                                        <input type="text" class="form-control" id="Confirm Password" name="cf" placeholder="Consultation Fees">
+                                        <label for="Consultation Fees">Consultation Fees</label>
                                     </div>
                                 </div>
                                 <div class="col-12">
@@ -115,6 +121,21 @@
     </div>
     <!-- Newsletter End -->
 
+    <script>
+        const toggleFees = () => {
+    const selectBox = document.getElementById("userTypeSelect");
+    const feeDiv = document.getElementById("cf");
+    const feeInput = document.getElementById("consultationFeeInput");
+
+    if (selectBox.value === "Designer") {
+        feeDiv.style.display = "block";
+        feeInput.setAttribute("required", "required"); 
+    } else {
+        feeDiv.style.display = "none";
+        feeInput.removeAttribute("required");
+    }
+}
+    </script>
 
     <!-- Footer Start -->
     {% endblock %}

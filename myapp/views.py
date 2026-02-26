@@ -416,8 +416,23 @@ def moodboard(request):
     except User.DoesNotExist:
         return redirect('logout')
     
-def designer_info(request):
-    return render(request,"designer_info.html")
+def designer_info(request, pk):
+    if 'email' not in request.session:
+        return redirect('login')
+    
+    try:
+        project = Designer.objects.get(id=pk)
+        designer = project.user 
+        
+        return render(request, 'designer_info.html', {
+            'designer': designer,
+            'project': project
+        })
+
+    except Designer.DoesNotExist:
+        messages.error(request, "Project not found!")
+        return redirect('home')
+    
     
 
 

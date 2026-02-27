@@ -68,6 +68,20 @@ class Moodboard(models.Model):
     class Meta:
         unique_together = [['user', 'design']]
 
+class Site(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='sites')
+    address = models.CharField(max_length=255)
+    city = models.CharField(max_length=100)
+    state = models.CharField(max_length=100)
+    pincode = models.CharField(max_length=6)
+    site_type = models.CharField(max_length=50, choices=[
+        ('Residential', 'Residential'),
+        ('Commercial', 'Commercial')
+    ], default='Residential')
+
+    def __str__(self):
+        return f"{self.user.name}'s Site in {self.city}"
+
 class Booking(models.Model):
     dreamer = models.ForeignKey(User, on_delete=models.CASCADE, related_name='bookings')
     designer = models.ForeignKey(User, on_delete=models.CASCADE, related_name='appointments')

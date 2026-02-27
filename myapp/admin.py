@@ -5,5 +5,6 @@ from .models import *
 admin.site.register(User)
 admin.site.register(Designer)
 admin.site.register(Moodboard)
+admin.site.register(Site)
 admin.site.register(Booking)
 

@@ -16,7 +16,7 @@
                 <h1 class="display-1 mb-0 animated slideInLeft">Name : {{designer.name}}</h1><br>
                 <h4 class="display-10 mb-0 animated slideInLeft" style="margin-left: 10px;">Contact : {{designer.contact}}</h4><br>
                 <h4 class="display-10 mb-0 animated slideInLeft" style="margin-left: 10px;">Email : {{designer.email}}</h4><br>
-                <h4 class="display-9 mb-0 animated slideInLeft" style="margin-left: 10px;margin-top: 20px;">Consultation
+                <h4 class="display-10 mb-0 animated slideInLeft" style="margin-left: 10px;">Consultation
                     Fees : <b>₹ {{designer.consultation_fee}} /-</b></h4>
             </div>
             <div class="col-lg-6 animated slideInRight mt-lg-5">
@@ -30,7 +30,112 @@
             </div>
         </div>
     </div>
+    <button style="background-color:teal;color: white;height: 60px;width: 20%;font-size: x-large;border: none;border-radius: 50px;margin-left: 100px;" data-bs-toggle="modal" data-bs-target="#exampleModal">Continue Booking</button>
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Site to be Visited ?</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="addressForm">
+                             {% csrf_token %}
+                            <div class="row g-3">
+                                <div class="col-md-12">
+                                    <div class="form-floating">
+                                            <select class="form-control" name="sitetype" required>
+                                                <option value="" selected>Select Purpose ?</option>
+                                                <option value="Residential">Residential</option>
+                                                <option value="Commercial">Commercial</option>
+                                            </select>  
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-floating">
+                                        <input type="text" class="form-control" id="address" name="address" placeholder="Your address">
+                                        <label for="address">Your Address</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-floating">
+                                        <input type="text" class="form-control" id="pincode" name="pincode" placeholder="Pincode" maxlength="6" onkeyup="fetchAddress()">
+                                        <label for="pincode">Pincode</label>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-floating">
+                                        <input type="text" class="form-control" id="city" name="city" placeholder="City" >
+                                        <label for="city">City/District</label>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-floating">
+                                        <input type="text" class="form-control" id="state" name="state" placeholder="State" >
+                                        <label for="state">State</label>
+                                    </div>
+                                </div>
+                            </div>
+      </div>
+      <div class="modal-footer col-12">
+        <button type="submit" class="btn btn-primary w-100 py-3">Save & Proceed to Payment</button>
+      </div>
+      </form>
+    </div>
+  </div>
 </div>
+</div>
+
+<script>
+    function fetchAddress() {
+    let pincode = document.getElementById("pincode").value;
+
+    // Only call the API when the length is exactly 6
+    if (pincode.length === 6) {
+        let url = `https://api.postalpincode.in/pincode/${pincode}`;
+
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                if (data[0].Status === "Success") {
+                    let postOffice = data[0].PostOffice[0];
+                    document.getElementById("city").value = postOffice.District;
+                    document.getElementById("state").value = postOffice.State;
+                } else {
+                    alert("Invalid Pincode! Please check again.");
+                    document.getElementById("city").value = "";
+                    document.getElementById("state").value = "";
+                }
+            })
+            .catch(err => console.log("API Error:", err));
+    }
+}
+
+document.getElementById('addressForm').onsubmit = function(e) {
+    e.preventDefault();
+    
+    const data = {
+        pincode: document.getElementById('pincode').value,
+        address: document.getElementById('address').value,
+        city: document.getElementById('city').value,
+        state: document.getElementById('state').value,
+        site_type : document.getElementById('sitetype').value
+        
+    };
+
+    // 2. Send to Django via Fetch/AJAX
+    fetch('/save-site-and-create-order/', {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: { 'X-CSRFToken': '{{ csrf_token }}' }
+    })
+    .then(res => res.json())
+    .then(response => {
+        // 3. Trigger Razorpay directly from here!
+        openRazorpay(response.order_id, response.amount);
+    });
+};
+</script>
 
 
     <!-- Footer Start -->

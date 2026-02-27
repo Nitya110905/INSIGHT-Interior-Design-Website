@@ -1,13 +1,13 @@
 from django.shortcuts import render,redirect
 from django.contrib import messages
-from .models import User
-from .models import Designer
-from .models import Moodboard
+from .models import *
 from django.conf import settings
 from django.core.mail import send_mail
 import random
 import time
 from django.db import IntegrityError
+import razorpay
+from django.http import JsonResponse
 
 def index(request):
     return render(request,'index.html')
@@ -432,6 +432,46 @@ def designer_info(request, pk):
     except Designer.DoesNotExist:
         messages.error(request, "Project not found!")
         return redirect('home')
+    
+def create_booking_order(request, pk):
+    if request.method == "POST":
+        client = razorpay.Client(auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET))
+        user = User.objects.get(email=request.session['email'])
+        new_site = Site.objects.create(
+            user=user,
+            site_type=request.POST.get('sitetype')
+            address=request.POST.get('address'),
+            city=request.POST.get('city'),
+            state=request.POST.get('state'),
+            pincode=request.POST.get('pincode')
+        )
+
+        design = Designer.objects.get(id=pk)
+        amount = int(design.user.consultation_fee * 100) 
+
+        order_data = {
+            "amount": amount,
+            "currency": "INR",
+            "payment_capture": "1"
+        }
+        razor_order = client.order.create(data=order_data)
+
+        booking = Booking.objects.create(
+            dreamer=user,
+            designer=design.user,
+            design=design,
+            site=new_site,
+            amount=design.user.consultation_fee,
+            razorpay_order_id=razor_order['id']
+        )
+        return JsonResponse({
+            'order_id': razor_order['id'],
+            'amount': amount,
+            'key': settings.RAZORPAY_KEY_ID,
+            'name': user.name,
+            'email': user.email,
+            'contact': user.contact
+        })
     
     
 

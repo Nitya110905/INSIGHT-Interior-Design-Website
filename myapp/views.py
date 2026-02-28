@@ -11,7 +11,9 @@ from cashfree_pg.models.customer_details import CustomerDetails
 from cashfree_pg.models.order_meta import OrderMeta
 from django.http import JsonResponse
 from django.db import IntegrityError
+import json
 
+# Fixed initialization based on your specific SDK version requirements
 cashfree_instance = Cashfree(
     XClientId=settings.CASHFREE_CLIENT_ID,
     XClientSecret=settings.CASHFREE_CLIENT_SECRET,
@@ -446,80 +448,115 @@ def designer_info(request, pk):
     
 def create_cashfree_booking(request, pk):
     if request.method == "POST":
-        design = Designer.objects.get(id=pk)
+        # Check if data is coming as JSON (common with Fetch API)
+        if request.content_type == 'application/json':
+            data = json.loads(request.body)
+        else:
+            data = request.POST
+
+        design = Designer.objects.get(user__id=pk)
         user = User.objects.get(email=request.session['email'])
 
-        # 1. Unique Order ID
-        unique_order_id = f"INSIGHT_{int(time.time())}_{user.id}"
+        # Use data.get() instead of request.POST.get()
+        new_site = Site.objects.create(
+            user=user,
+            address=data.get('address'),
+            city=data.get('city'),
+            state=data.get('state'),
+            pincode=data.get('pincode'),
+            site_type=data.get('site_type') 
+        )
 
-        # 2. Build Request Objects
+        unique_order_id = f"INS_ORDR_{int(time.time())}"
+        clean_phone = str(user.contact)[-10:]
+        clean_amount = round(float(design.user.consultation_fee), 2)
+
         customer = CustomerDetails(
-            customer_id=str(user.id),
-            customer_phone=user.contact,
+            customer_id=f"USER_{user.id}", 
+            customer_phone=clean_phone, 
             customer_email=user.email
         )
-        
+
         meta = OrderMeta(
             return_url="http://127.0.0.1:8000/payment-success/?order_id={order_id}"
         )
 
         order_request = CreateOrderRequest(
             order_id=unique_order_id,
-            order_amount=float(design.user.consultation_fee),
+            order_amount=clean_amount,
             order_currency="INR",
             customer_details=customer,
             order_meta=meta
         )
 
         try:
-            # 3. Use the INSTANCE to create the order
-            # Note: "2023-08-01" is the required API version string
             api_response = cashfree_instance.PGCreateOrder("2023-08-01", order_request)
+            raw_id = str(api_response.data.payment_session_id)
+            clean_session_id = raw_id.replace("paymentpayment", "").replace("payment", "").strip()
+            print(f"DEBUG: Final Clean Session ID: {clean_session_id}")
             
-            # 4. Save to your database
             Booking.objects.create(
                 dreamer=user,
                 designer=design.user,
                 design=design,
+                site=new_site, 
                 amount=design.user.consultation_fee,
                 order_id=unique_order_id,
-                payment_session_id=api_response.data.payment_session_id
+                payment_session_id=clean_session_id
             )
 
             return JsonResponse({
-                'payment_session_id': api_response.data.payment_session_id,
+                'payment_session_id': str(clean_session_id), 
                 'order_id': unique_order_id
             })
 
         except Exception as e:
-            print(f"Cashfree Error: {e}")
             return JsonResponse({'error': str(e)}, status=400)
 
 def payment_success(request):
     order_id = request.GET.get('order_id')
-    
-    if not order_id:
-        return render(request, 'failure.html', {'error': 'No Order ID found'})
-
     try:
         api_response = cashfree_instance.PGGetOrder("2023-08-01", order_id)
-        order_status = api_response.data.order_status
-
-        if order_status == "PAID":
+        if api_response.data.order_status == "PAID":
             booking = Booking.objects.get(order_id=order_id)
             booking.is_paid = True
             booking.save()
             return render(request, 'success.html', {'booking': booking})
-        
-        elif order_status == "ACTIVE":
-            return render(request, 'failure.html', {'status': 'Payment Pending or Cancelled'})
-            
         else:
-            return render(request, 'failure.html', {'status': order_status})
-            
+            return redirect('payment_failure') 
     except Exception as e:
-        print(f"Verification Error: {e}")
-        return render(request, 'failure.html', {'error': str(e)})
+        return redirect('payment_failure')
+
+def payment_failure(request):
+    return render(request, 'failure.html')
+
+def test_cashfree_connection(request):
+    try:
+        # A simple request to see if the SDK can communicate
+        # We try to create a tiny dummy order to verify the handshake
+        from cashfree_pg.models.customer_details import CustomerDetails
+        from cashfree_pg.models.create_order_request import CreateOrderRequest
+        
+        customer = CustomerDetails(customer_id="TEST_USER", customer_phone="9999999999", customer_email="test@example.com")
+        order_request = CreateOrderRequest(
+            order_id=f"TEST_{int(time.time())}",
+            order_amount=1.00,
+            order_currency="INR",
+            customer_details=customer
+        )
+        
+        response = cashfree_instance.PGCreateOrder("2023-08-01", order_request)
+        
+        return JsonResponse({
+            "status": "Success",
+            "message": "Connected to Cashfree Sandbox!",
+            "session_id_preview": response.data.payment_session_id[:15] + "..."
+        })
+    except Exception as e:
+        return JsonResponse({
+            "status": "Failed",
+            "error": str(e)
+        }, status=500)
     
     
 

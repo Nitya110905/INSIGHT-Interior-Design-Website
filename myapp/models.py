@@ -88,9 +88,10 @@ class Booking(models.Model):
     design = models.ForeignKey(Designer, on_delete=models.CASCADE)
     site = models.ForeignKey(Site, on_delete=models.SET_NULL, null=True, blank=True)
     amount = models.DecimalField(max_digits=10, decimal_places=2)
-    razorpay_order_id = models.CharField(max_length=100, blank=True, null=True)
+    order_id = models.CharField(max_length=100, unique=True) 
+    payment_session_id = models.CharField(max_length=255, blank=True, null=True)
     is_paid = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"Booking by {self.dreamer.name} for {self.designer.name} - Paid: {self.is_paid}"
+        return f"Booking {self.order_id} - {self.is_paid}"

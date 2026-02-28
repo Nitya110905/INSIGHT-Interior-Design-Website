@@ -5,9 +5,20 @@ from django.conf import settings
 from django.core.mail import send_mail
 import random
 import time
-from django.db import IntegrityError
-import razorpay
+from cashfree_pg.api_client import Cashfree
+from cashfree_pg.models.create_order_request import CreateOrderRequest
+from cashfree_pg.models.customer_details import CustomerDetails
+from cashfree_pg.models.order_meta import OrderMeta
 from django.http import JsonResponse
+from django.db import IntegrityError
+
+cashfree_instance = Cashfree(
+    XClientId=settings.CASHFREE_CLIENT_ID,
+    XClientSecret=settings.CASHFREE_CLIENT_SECRET,
+    XEnvironment=Cashfree.SANDBOX 
+)
+
+
 
 def index(request):
     return render(request,'index.html')
@@ -433,45 +444,82 @@ def designer_info(request, pk):
         messages.error(request, "Project not found!")
         return redirect('home')
     
-def create_booking_order(request, pk):
+def create_cashfree_booking(request, pk):
     if request.method == "POST":
-        client = razorpay.Client(auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET))
-        user = User.objects.get(email=request.session['email'])
-        new_site = Site.objects.create(
-            user=user,
-            site_type=request.POST.get('sitetype')
-            address=request.POST.get('address'),
-            city=request.POST.get('city'),
-            state=request.POST.get('state'),
-            pincode=request.POST.get('pincode')
-        )
-
         design = Designer.objects.get(id=pk)
-        amount = int(design.user.consultation_fee * 100) 
+        user = User.objects.get(email=request.session['email'])
 
-        order_data = {
-            "amount": amount,
-            "currency": "INR",
-            "payment_capture": "1"
-        }
-        razor_order = client.order.create(data=order_data)
+        # 1. Unique Order ID
+        unique_order_id = f"INSIGHT_{int(time.time())}_{user.id}"
 
-        booking = Booking.objects.create(
-            dreamer=user,
-            designer=design.user,
-            design=design,
-            site=new_site,
-            amount=design.user.consultation_fee,
-            razorpay_order_id=razor_order['id']
+        # 2. Build Request Objects
+        customer = CustomerDetails(
+            customer_id=str(user.id),
+            customer_phone=user.contact,
+            customer_email=user.email
         )
-        return JsonResponse({
-            'order_id': razor_order['id'],
-            'amount': amount,
-            'key': settings.RAZORPAY_KEY_ID,
-            'name': user.name,
-            'email': user.email,
-            'contact': user.contact
-        })
+        
+        meta = OrderMeta(
+            return_url="http://127.0.0.1:8000/payment-success/?order_id={order_id}"
+        )
+
+        order_request = CreateOrderRequest(
+            order_id=unique_order_id,
+            order_amount=float(design.user.consultation_fee),
+            order_currency="INR",
+            customer_details=customer,
+            order_meta=meta
+        )
+
+        try:
+            # 3. Use the INSTANCE to create the order
+            # Note: "2023-08-01" is the required API version string
+            api_response = cashfree_instance.PGCreateOrder("2023-08-01", order_request)
+            
+            # 4. Save to your database
+            Booking.objects.create(
+                dreamer=user,
+                designer=design.user,
+                design=design,
+                amount=design.user.consultation_fee,
+                order_id=unique_order_id,
+                payment_session_id=api_response.data.payment_session_id
+            )
+
+            return JsonResponse({
+                'payment_session_id': api_response.data.payment_session_id,
+                'order_id': unique_order_id
+            })
+
+        except Exception as e:
+            print(f"Cashfree Error: {e}")
+            return JsonResponse({'error': str(e)}, status=400)
+
+def payment_success(request):
+    order_id = request.GET.get('order_id')
+    
+    if not order_id:
+        return render(request, 'failure.html', {'error': 'No Order ID found'})
+
+    try:
+        api_response = cashfree_instance.PGGetOrder("2023-08-01", order_id)
+        order_status = api_response.data.order_status
+
+        if order_status == "PAID":
+            booking = Booking.objects.get(order_id=order_id)
+            booking.is_paid = True
+            booking.save()
+            return render(request, 'success.html', {'booking': booking})
+        
+        elif order_status == "ACTIVE":
+            return render(request, 'failure.html', {'status': 'Payment Pending or Cancelled'})
+            
+        else:
+            return render(request, 'failure.html', {'status': order_status})
+            
+    except Exception as e:
+        print(f"Verification Error: {e}")
+        return render(request, 'failure.html', {'error': str(e)})
     
     
 

@@ -50,6 +50,14 @@
                                         <input type="tel" class="form-control" style="margin:10px;" id="mobile" name = "mobile" value="{{ user.contact }}">
                                     </div>
                                 </div>
+                                {% if request.session.usertype == "Designer" %}
+                                <div class="col-12" id="cf" style="margin-left:10px;">
+                                    <div class="form-floating">
+                                        <input type="text" class="form-control" id="Confirm Password" name="cf" placeholder="Consultation Fees" value="{{ user.consultation_fee }}">
+                                        <label for="Consultation Fees">Consultation Fees</label>
+                                    </div>
+                                </div>
+                                {% endif %}
                                 
                                <div class="col-md-6">
                                     <div style="margin: 10px;">

@@ -113,7 +113,7 @@
         e.preventDefault(); 
         const formData = new FormData(this);
 
-        fetch("{% url 'create_cashfree_booking' designer.id %}", {
+        fetch("{% url 'create_cashfree_booking' project.id %}", {
             method: 'POST',
             body: formData, 
             headers: { 'X-CSRFToken': '{{ csrf_token }}' }

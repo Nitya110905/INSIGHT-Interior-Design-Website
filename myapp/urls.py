@@ -47,6 +47,5 @@ urlpatterns = [
     path('designer_info/<int:pk>/',views.designer_info,name='designer_info'),
     path('create-cashfree-order/<int:pk>/', views.create_cashfree_booking, name='create_cashfree_booking'),
     path('payment-success/', views.payment_success, name='payment_success'),
-    path('payment-failure/', views.payment_failure, name='payment_failure'),
-    path('test-cashfree/', views.test_cashfree_connection, name='test_cashfree'),   
+    path('payment-failure/', views.payment_failure, name='payment_failure'),  
     ]

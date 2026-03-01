@@ -23,6 +23,8 @@ cashfree_instance = Cashfree(
 
 
 def index(request):
+    if 'email' in request.session:
+        return redirect('home')
     return render(request,'index.html')
 
 def about(request):
@@ -226,6 +228,7 @@ def uprofile(request):
     if request.method == "POST":
         user.name = request.POST['name']
         user.contact = request.POST['mobile']
+        user.consultation_fee = request.POST['cf']
 
         if 'uprofile' in request.FILES:
             if user.uprofile:
@@ -454,7 +457,7 @@ def create_cashfree_booking(request, pk):
         else:
             data = request.POST
 
-        design = Designer.objects.get(user__id=pk)
+        design = Designer.objects.get(id=pk)
         user = User.objects.get(email=request.session['email'])
 
         # Use data.get() instead of request.POST.get()
@@ -529,34 +532,6 @@ def payment_success(request):
 
 def payment_failure(request):
     return render(request, 'failure.html')
-
-def test_cashfree_connection(request):
-    try:
-        # A simple request to see if the SDK can communicate
-        # We try to create a tiny dummy order to verify the handshake
-        from cashfree_pg.models.customer_details import CustomerDetails
-        from cashfree_pg.models.create_order_request import CreateOrderRequest
-        
-        customer = CustomerDetails(customer_id="TEST_USER", customer_phone="9999999999", customer_email="test@example.com")
-        order_request = CreateOrderRequest(
-            order_id=f"TEST_{int(time.time())}",
-            order_amount=1.00,
-            order_currency="INR",
-            customer_details=customer
-        )
-        
-        response = cashfree_instance.PGCreateOrder("2023-08-01", order_request)
-        
-        return JsonResponse({
-            "status": "Success",
-            "message": "Connected to Cashfree Sandbox!",
-            "session_id_preview": response.data.payment_session_id[:15] + "..."
-        })
-    except Exception as e:
-        return JsonResponse({
-            "status": "Failed",
-            "error": str(e)
-        }, status=500)
     
     
 

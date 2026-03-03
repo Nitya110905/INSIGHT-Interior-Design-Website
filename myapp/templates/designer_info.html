@@ -120,9 +120,7 @@
         })
         .then(res => res.json())
         .then(data => {
-            // 2. We use the 'clean_session_id' sent by your Python view
             if (data.payment_session_id) {
-                console.log("Success! Opening checkout for session:", data.payment_session_id);
                 
                 cashfree.checkout({
                     paymentSessionId: data.payment_session_id,

@@ -15,6 +15,10 @@ from django.db import IntegrityError
 import json
 from django.urls import reverse
 from django.shortcuts import get_object_or_404
+from django.http import HttpResponse
+from django.template.loader import get_template
+from xhtml2pdf import pisa
+import io
 
 # Fixed initialization based on your specific SDK version requirements
 cashfree_instance = Cashfree(
@@ -518,27 +522,46 @@ def create_cashfree_booking(request, pk):
                 'order_id': unique_order_id
             })
 
-        except Exception as e:
+        except :
             return JsonResponse({'error': str(e)}, status=400)
 
 def payment_success(request):
     order_id = request.GET.get('order_id')
+    
     try:
-        api_response = cashfree_instance.PGGetOrder(order_id)
-        if api_response.data.order_status == "SUCCESS":
+        # Based on your dir() output, the method is PGFetchOrder
+        api_response = cashfree_instance.PGFetchOrder("2023-08-01", order_id)
+        
+        # Check for the PAID status in the response data
+        if api_response.data and api_response.data.order_status == "PAID":
             booking = Booking.objects.get(order_id=order_id)
             booking.is_paid = True
             booking.save()
-            print("ORDER STATUS:", api_response.data.order_status)
-            print("FULL RESPONSE:", api_response.data)
             return render(request, 'success.html', {'booking': booking})
         else:
             return redirect('payment_failure') 
-    except Exception as e:
+            
+    except :
         return redirect('payment_failure')
-
 def payment_failure(request):
     return render(request, 'failure.html')
+
+def download_receipt(request, order_id):
+    booking = get_object_or_404(Booking, order_id=order_id)
+    template_path = 'receipt_pdf.html'
+    context = {'booking': booking}
+    
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = f'attachment; filename="Receipt_{order_id}.pdf"'
+    
+    template = get_template(template_path)
+    html = template.render(context)
+
+    pisa_status = pisa.CreatePDF(html, dest=response)
+    
+    if pisa_status.err:
+       return HttpResponse('We had some errors <pre>' + html + '</pre>')
+    return response
     
     
 

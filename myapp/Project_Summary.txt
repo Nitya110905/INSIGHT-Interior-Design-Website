@@ -1,0 +1,15 @@
+=> Project Summary: Insight
+
+Insight is a full-stack web application built with Django,SCSS,JS & Bootstrap that connects creative Architects & Designers with clients ("Dreamers") looking to transform their homes. It serves as a complete, user-friendly marketplace and booking system.
+
+Tailored User Journeys: Designers can easily showcase their portfolios and set fees, while Dreamers can browse designs and save their favorites to custom "Moodboards."
+
+Smart Booking Engine: A hassle-free scheduling system that lets users book site visits, complete with time-validation so designers only get booked when they are actually available.
+
+Seamless Integrations: Connected a live PIN Code API for quick, error-free address entry, and integrated the Cashfree Payment Gateway for secure, real-time checkout.
+
+Modern, Mobile-First UI: Built to look and feel great on any device, featuring interactive modals, smooth pop-up notifications, and responsive data tables.
+
+Built-In Security: Protects user data with Django's built-in CSRF protection, secure password hashing, and a custom auto-logout timer for inactive sessions.
+
+The Takeaway: Insight goes beyond a basic project—it is a fully functional, interview-ready application that highlights my ability to blend complex database logic, third-party APIs, and thoughtful user design.

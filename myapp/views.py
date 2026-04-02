@@ -60,7 +60,7 @@ def signup(request):
     if request.method == "POST":
         try:
             user = User.objects.get(email=request.POST['email'])
-            messages.error(request,"User already exists !")
+            messages.error(request,"User already Exists !")
             return render(request,'sign-up.html')
         except User.DoesNotExist:
             if request.POST['password'] == request.POST['cpassword']:
@@ -77,10 +77,10 @@ def signup(request):
                     consultation_fee=fee, # Now it's safely a number
                     usertype=u_type
                 )
-                messages.success(request, "sign-up Successful !")
+                messages.success(request, "Sign-Up Successful !")
                 return redirect ('login')
             else:
-                messages.error(request, "Password and Confirm Password do not match !")
+                messages.error(request, "Password and Confirm Password do not Match !")
                 return render(request, 'sign-up.html')
     else:
         return render (request,'sign-up.html')
@@ -114,9 +114,9 @@ def logout(request):
     auth.logout(request)
     request.session.flush()
     if reason == 'expired':
-        messages.warning(request, "Your session expired due to inactivity !")
+        messages.warning(request, "Your session expired due to Inactivity !")
     else:
-        messages.success(request, "Logged out successfully !")
+        messages.success(request, "Logged out Successfully !")
     return redirect('login')
 
 def fpass(request):
@@ -134,10 +134,10 @@ def fpass(request):
             request.session['otp'] = otp
             request.session['otp_timestamp'] = time.time()
 
-            messages.success(request,'OTP sent successfully !')
+            messages.success(request,'OTP sent Successfully !')
             return redirect ('otp')
         except User.DoesNotExist:
-            messages.error(request,'Email does not exist !')
+            messages.error(request,'Email does not Exist !')
             return render(request,'forgot-password.html')
     else:
         return render(request,'forgot-password.html')
@@ -146,7 +146,7 @@ def fpass(request):
 def otp(request):
 
     if 'resetpass_email' not in request.session:
-        messages.error(request, "Please enter your email first !")
+        messages.error(request, "Please enter your email First !")
         return redirect('fpass')
     
     created_time = request.session.get('otp_timestamp', 0)
@@ -173,14 +173,14 @@ def otp(request):
                 return render(request, 'otp.html', {'seconds_left': seconds_left})
         
         except (ValueError, TypeError):
-            messages.error(request, 'Please enter a valid number !')
+            messages.error(request, 'Please enter a valid Number !')
             return render(request, 'otp.html', {'seconds_left': seconds_left})
 
     return render(request, 'otp.html', {'seconds_left': seconds_left})
 
 def resend_otp(request):
     if 'resetpass_email' not in request.session:
-        messages.error(request, "Please enter your email first !")
+        messages.error(request, "Please enter your email First !")
         return redirect('fpass')
     
     email = request.session.get('resetpass_email')
@@ -197,19 +197,19 @@ def resend_otp(request):
             email_from = settings.EMAIL_HOST_USER
             send_mail(subject, msg, email_from, [user.email])
             
-            messages.success(request, "A new OTP has been sent !")
+            messages.success(request, "A new OTP has been Sent !")
             return redirect('otp')
             
         except User.DoesNotExist:
-            messages.error(request, "User account error !")
+            messages.error(request, "User account Error !")
             return redirect('fpass')
     else:
-        messages.error(request, "Session expired. Please enter your email again !")
+        messages.error(request, "Session expired. Please enter your email Again !")
         return redirect('fpass')
 
 def newpass(request):
     if 'resetpass_email' not in request.session:
-        messages.error(request, "Please enter your email first !")
+        messages.error(request, "Please enter your email First !")
         return redirect('fpass')
     
     if request.method == "POST":
@@ -224,14 +224,14 @@ def newpass(request):
 
                 request.session.flush() 
                 
-                messages.success(request, "Password reset successfull ! Please login !")
+                messages.success(request, "Password reset Successfull ! Please login !")
                 return redirect('login')
                 
             except User.DoesNotExist:
-                messages.error(request, "User not found. Please try again !")
+                messages.error(request, "User not Found ! Please try Again !")
                 return redirect('fpass')
         else:
-            messages.error(request, "Passwords do not match !")
+            messages.error(request, "Passwords do not Match !")
             return render(request, 'new-password.html')
 
     return render(request, 'new-password.html')
@@ -275,7 +275,7 @@ def changepass(request):
                     messages.success(request,"Password Updated Successfully !")
                     return redirect("uprofile")
                 else:
-                    messages.error(request,"New Password and Confirm New Password does not match ! ")
+                    messages.error(request,"New Password and Confirm New Password does not Match ! ")
                     return render(request, 'changepass.html')
             else:
                 messages.error(request,"Old Password is Incorrect !")
@@ -300,11 +300,11 @@ def add_design(request):
                 dimage2=request.FILES.get('dimage2'), 
                 dimage3=request.FILES.get('dimage3')
             )
-            messages.success(request, "Design added successfully !")
+            messages.success(request, "Design added Successfully !")
             return redirect('manage_design')
         
         except IntegrityError:
-            messages.error(request,f"You already have a design named '{request.POST['dname']}'. Please use a unique name !")
+            messages.error(request,f"You already have a design named '{request.POST['dname']}'. Please use a unique Name !")
             return render(request, 'add_design.html') 
             
     return render(request, 'add_design.html')
@@ -320,7 +320,7 @@ def edit_design(request,pk):
         user = User.objects.get(email=request.session['email'])
         design = Designer.objects.get(id=pk, user=user) 
     except (User.DoesNotExist, Designer.DoesNotExist):
-        messages.error(request, "Design not found !")
+        messages.error(request, "Design not Found !")
         return redirect('manage_design')
 
     if request.method == "POST":
@@ -365,11 +365,11 @@ def delete_design(request, pk):
             design.dimage3.delete(save=False)
         design.delete() 
         
-        messages.success(request, "Design and all associated files deleted !")
+        messages.success(request, "Design and all associated files Deleted !")
         return redirect('manage_design') 
         
     except (User.DoesNotExist, Designer.DoesNotExist):
-        messages.error(request, "Design not found !")
+        messages.error(request, "Design not Found !")
         return redirect('manage_design')
     
 def home(request):
@@ -396,7 +396,7 @@ def home(request):
 
 def design_info(request, design_slug):
     if 'email' not in request.session:
-        messages.error(request, "Please login to view project details !")
+        messages.error(request, "Please login to view project Details !")
         return redirect('login')
 
     try:
@@ -411,12 +411,12 @@ def design_info(request, design_slug):
     except User.DoesNotExist:
         return redirect('logout') 
     except Designer.DoesNotExist:
-        messages.error(request, "The requested design does not exist !")
+        messages.error(request, "The requested design does not Exist !")
         return redirect('home')
     
 def moodboard_add(request, pk):
     if 'email' not in request.session:
-        messages.error(request, "Please login to add designs to your moodboard !")
+        messages.error(request, "Please login to add designs to your Moodboard !")
         return redirect('login')
 
     try:
@@ -425,13 +425,13 @@ def moodboard_add(request, pk):
         obj, created = Moodboard.objects.get_or_create(user=user, design=design)
 
         if created:
-            messages.success(request, "Added to your moodboard !")
+            messages.success(request, "Added to your Moodboard !")
         else:
-            messages.info(request, "This design is already in your moodboard !")
+            messages.info(request, "This design is already in your Moodboard !")
         return redirect('design_info', design_slug=design.slug)
         
     except Designer.DoesNotExist:
-        messages.error(request, "Design not found !")
+        messages.error(request, "Design not Found !")
         return redirect('home')
     
 def moodboard(request):
@@ -463,7 +463,7 @@ def moodboard_delete(request, pk):
         request.session.flush() 
         return redirect('login')
     except Exception as e:
-        messages.error(request, "Something went wrong while removing the item !")
+        messages.error(request, "Something went wrong while removing the Item !")
         
     return redirect('moodboard')
 
@@ -484,7 +484,7 @@ def designer_info(request, pk):
         })
 
     except Designer.DoesNotExist:
-        messages.error(request, "Project not found !")
+        messages.error(request, "Project not Found !")
         return redirect('home')
     
 def create_cashfree_booking(request, pk):

@@ -1,10 +1,9 @@
 {
-    "buildCommand": "pip install --no-cache-dir -r requirements.txt",
-    "outputDirectory": ".",
-    "routes": [
-        {
-            "src": "/(.*)",
-            "dest": "Insight/wsgi.py"
-        }
-    ]
+  "buildCommand": "pip install --no-cache-dir -r requirements-prod.txt",
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "Insight/wsgi.py"
+    }
+  ]
 }

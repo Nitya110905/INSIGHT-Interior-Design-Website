@@ -240,7 +240,10 @@ def uprofile(request):
     if request.method == "POST":
         user.name = request.POST['name']
         user.contact = request.POST['mobile']
-        user.consultation_fee = request.POST['cf']
+        if user.usertype == "designer":
+            fee = request.POST.get('cf')
+            if fee: 
+                user.consultation_fee = fee
 
         if 'uprofile' in request.FILES:
             if user.uprofile:

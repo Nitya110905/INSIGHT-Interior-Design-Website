@@ -21,7 +21,6 @@ from xhtml2pdf import pisa
 import io
 from datetime import datetime,date
 from django.contrib import auth
-from django.contrib.auth.models import User
 cashfree_instance = Cashfree(
     XClientId=settings.CASHFREE_CLIENT_ID,
     XClientSecret=settings.CASHFREE_CLIENT_SECRET,
@@ -132,11 +131,8 @@ def fpass(request):
                 send_mail(subject, msg, email_from, recepient_list, fail_silently=False)
             except Exception as e:
                 print(f"EMAIL FAILED: {e}") 
-                # 2. Print the OTP directly to your Render logs!
-                print(f"DEVELOPER BYPASS - THE OTP IS: {otp}") 
-                
-                # 3. Show a warning, but DO NOT redirect them back to fpass!
-                messages.warning(request, 'Email network failed, but developer bypass is active!')
+                messages.error(request, 'Network error. Please try again in a few minutes.')
+                return redirect('fpass')
 
             request.session['resetpass_email'] = user.email
             request.session['otp'] = otp
@@ -645,13 +641,6 @@ def appointments(request):
     return render(request, 'appointments.html', {
         'appointments': appointments
     })
-
-def setup_admin(request):
-    if not User.objects.filter(username='nitya_admin').exists():
-        User.objects.create_superuser('nitya_admin', 'admin@example.com', 'NS110905')
-        return HttpResponse("SUCCESS: Admin created! You can now log in.")
-    else:
-        return HttpResponse("Admin already exists! Go log in.")
 
     
     

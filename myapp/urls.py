@@ -52,5 +52,4 @@ urlpatterns = [
     path('download_receipt/<str:order_id>/', views.download_receipt, name='download_receipt'),
     path('bookings', views.bookings, name='bookings'),
     path('appointments', views.appointments, name='appointments'),
-    path('secret-setup-admin/', views.setup_admin, name='setup_admin'),
     ]

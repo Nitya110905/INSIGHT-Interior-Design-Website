@@ -132,7 +132,7 @@ def fpass(request):
                 send_mail(subject, msg, email_from, recepient_list, fail_silently=False)
             except Exception as e:
                 print(f"EMAIL FAILED: {e}") 
-                messages.error(request, 'Network error. Please try again in a few minutes.')
+                messages.error(request, 'Network error ! Please try again in a few minutes !')
                 return redirect('fpass')
 
             request.session['resetpass_email'] = user.email
